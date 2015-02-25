@@ -11,8 +11,22 @@ import ctypes
 from sympy import *
 from sympy.abc import *
 
+
+#from theano import *
+import theano.tensor as T
+
+from sympy.physics.hydrogen import R_nl
+from sympy.abc import x
+from sympy.utilities.autowrap import ufuncify
+from sympy.utilities.lambdify import lambdify
+
+
+#expr = R_nl(3, 1, x, 6)
+#print latex(expr)
+
 #expr = 2.0 * x**5 + 3.0 * x * y
-expr = 2.0*x**5 + 3.0*x**4 + 5.0*x**3 + 4.5*x**2 + 5.6*x + x*y + 2.0*y**5 + 3.0*y**4 + 5.0*y**3 + 4.5*y**2 + 5.6*y + x*y
+#expr = 2.0*x**5 + 3.0*x**4 + 5.0*x**3 + 4.5*x**2 + 5.6*x + x*y + 2.0*y**5 + 3.0*y**4 + 5.0*y**3 + 4.5*y**2 + 5.6*y + x*y
+expr = 1.0 * x**9.1 + 2.0 * x**8.1 + 3.0 * x**7.1 + 4.0 * x**6.1 + 5.0 * x**5.1 + 6.0 * x**4.1 + 7.0 * x**3.1 + 8.0 * x**2.1 + 9.0 * x**1.1 + 3.0 * x * y
 print expr
 print expr.args
 print expr.subs({x:2.0, y:3.0})
@@ -102,7 +116,7 @@ py_fun = FUNC_TYPE(func_ptr_int)
 print py_fun(2.0, 3.0)
 
 
-N = 1000000
+N = 10000000
 
 
 lfun = lambdify((x,y), expr)
@@ -111,7 +125,7 @@ ts = time.time()
 for i in range(N):
 	lfun(2.0, 3.0)
 te = time.time()
-print (te-ts)
+print "lambdify: ",(te-ts)
 
 
 ts = time.time()
@@ -119,10 +133,21 @@ for i in range(N):
 	py_fun(2.0, 3.0)
 	#ee.run_function(fun, [arg1, arg2])
 te = time.time()
-print (te-ts)
+print "py_fun: ", (te-ts)
 
 # ts = time.time()
 # for i in range(N):
 # 	expr.subs({x:2.0, y:3.0})
 # te = time.time()
 # print (te-ts)
+
+fn_fortran = ufuncify([x,y], expr)
+print fn_fortran(2.0, 3.0)
+
+ts = time.time()
+for i in range(N):
+	fn_fortran(2.0, 3.0)
+te = time.time()
+print "fn_fortran: ",(te-ts)
+
+
