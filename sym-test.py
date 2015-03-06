@@ -12,11 +12,7 @@ from sympy import *
 from sympy.abc import *
 
 
-#from theano import *
-import theano.tensor as T
-
 from sympy.physics.hydrogen import R_nl
-from sympy.abc import x
 from sympy.utilities.autowrap import ufuncify
 from sympy.utilities.lambdify import lambdify
 
@@ -116,27 +112,27 @@ py_fun = FUNC_TYPE(func_ptr_int)
 print py_fun(2.0, 3.0)
 
 
-N = 10000000
+NN = 10000000
 
 
 lfun = lambdify((x,y), expr)
 
 ts = time.time()
-for i in range(N):
+for i in range(NN):
 	lfun(2.0, 3.0)
 te = time.time()
 print "lambdify: ",(te-ts)
 
 
 ts = time.time()
-for i in range(N):
+for i in range(NN):
 	py_fun(2.0, 3.0)
 	#ee.run_function(fun, [arg1, arg2])
 te = time.time()
 print "py_fun: ", (te-ts)
 
 # ts = time.time()
-# for i in range(N):
+# for i in range(NN):
 # 	expr.subs({x:2.0, y:3.0})
 # te = time.time()
 # print (te-ts)
@@ -145,7 +141,7 @@ fn_fortran = ufuncify([x,y], expr)
 print fn_fortran(2.0, 3.0)
 
 ts = time.time()
-for i in range(N):
+for i in range(NN):
 	fn_fortran(2.0, 3.0)
 te = time.time()
 print "fn_fortran: ",(te-ts)
