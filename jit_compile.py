@@ -112,7 +112,7 @@ class JIT:
 
 
 
-	def compile2(self, args, expr):
+	def compile2(self, args, exprs):
 		ty_double = Type.double()
 		ty_ptr = Type.pointer(ty_double)
 
@@ -126,64 +126,68 @@ class JIT:
 		#print fun_args
 		#print fun_args_map
 
-		ty_func = Type.function(ty_double, fun_args)
+		ty_func = Type.function(Type.int(), fun_args)
 		fun = self.func_module.add_function(ty_func, "fun"+str(uuid.uuid1()).replace("-",""))
 
 		bb = fun.append_basic_block("block1")
 		builder = Builder.new(bb)
 
-		stack = []
-		for term in postorder_traversal(expr):
-			if term.is_Symbol:
-				stack.append([fun.args[fun_args_map[term]], 0.0])
-			elif term.is_Number:
-				stack.append([Constant.real(ty_double, term.evalf()), term.evalf()])
-			elif term.is_Mul:
-				for i in range(len(term.args)-1):
-					right = stack.pop()[0]
+		idx = 0
+		for expr in exprs:
+			stack = []
+			for term in postorder_traversal(expr):
+				if term.is_Symbol:
+					stack.append([fun.args[fun_args_map[term]], 0.0])
+				elif term.is_Number:
+					stack.append([Constant.real(ty_double, term.evalf()), term.evalf()])
+				elif term.is_Mul:
+					for i in range(len(term.args)-1):
+						right = stack.pop()[0]
+						left = stack.pop()[0]
+						stack.append([builder.fmul(left, right), 0.0])
+				elif term.is_Add:
+					for i in range(len(term.args)-1):
+						right = stack.pop()[0]
+						left = stack.pop()[0]
+						stack.append([builder.fadd(left, right), 0.0])
+				elif term.is_Function:
+					if term.__class__ == sin:
+						param = stack.pop()[0]
+						ifun = llvm.core.Function.intrinsic(self.func_module, INTR_SIN, [ty_double])
+						stack.append([builder.call(ifun, [param]), 0.0])
+					elif term.__class__ == cos:
+						param = stack.pop()[0]
+						ifun = llvm.core.Function.intrinsic(self.func_module, INTR_COS, [ty_double])
+						stack.append([builder.call(ifun, [param]), 0.0])
+				elif term.is_Pow:
+					tmp = stack.pop()
+					right = tmp[0]
 					left = stack.pop()[0]
-					stack.append([builder.fmul(left, right), 0.0])
-			elif term.is_Add:
-				for i in range(len(term.args)-1):
-					right = stack.pop()[0]
-					left = stack.pop()[0]
-					stack.append([builder.fadd(left, right), 0.0])
-			elif term.is_Function:
-				if term.__class__ == sin:
-					param = stack.pop()[0]
-					ifun = llvm.core.Function.intrinsic(self.func_module, INTR_SIN, [ty_double])
-					stack.append([builder.call(ifun, [param]), 0.0])
-				elif term.__class__ == cos:
-					param = stack.pop()[0]
-					ifun = llvm.core.Function.intrinsic(self.func_module, INTR_COS, [ty_double])
-					stack.append([builder.call(ifun, [param]), 0.0])
-			elif term.is_Pow:
-				tmp = stack.pop()
-				right = tmp[0]
-				left = stack.pop()[0]
-				#print isinstance(right, Constant)
-				#print dir(right)
-				#print right.type.kind
-				if tmp[1] == math.floor(tmp[1]):
-					right = right.fptosi(Type.int())
-					f_pow = llvm.core.Function.intrinsic(self.func_module, INTR_POWI, [ty_double])
+					#print isinstance(right, Constant)
+					#print dir(right)
+					#print right.type.kind
+					if tmp[1] == math.floor(tmp[1]):
+						right = right.fptosi(Type.int())
+						f_pow = llvm.core.Function.intrinsic(self.func_module, INTR_POWI, [ty_double])
+					else:
+						f_pow = llvm.core.Function.intrinsic(self.func_module, INTR_POW, [ty_double])
+					stack.append([builder.call(f_pow, [left, right]), 0.0])
 				else:
-					f_pow = llvm.core.Function.intrinsic(self.func_module, INTR_POW, [ty_double])
-				stack.append([builder.call(f_pow, [left, right]), 0.0])
-			else:
-				print "ERROR: Unknown function in expression!"
-
-		val = stack.pop()[0]
-		#builder.load(fun.args[-1])
-		builder.insert_element(fun.args[-1], val, 0)
+					print "ERROR: Unknown function in expression!"
+			val = stack.pop()[0]
+			builder.load(fun.args[-1])
+			ptr = builder.gep(fun.args[-1], [Constant.int(Type.int(), idx)])
+			builder.store(val, ptr)
+			#builder.insert_element(fun.args[-1], val, Constant.int(Type.int(), 0))
+			idx += 1
 
 		builder.ret(Constant.int(Type.int(), 0))
-		#print self.func_module
+		print self.func_module
 
 		ct_argtypes = [ctypes.c_double for arg in args]
-		ct_argtypes.append(ctypes.POINTER(ctypes.c_double))
+		ct_argtypes.append(ctypes.POINTER(ctypes.c_double*len(exprs)))
 		func_ptr_int = self.ee.get_pointer_to_function( fun )
-		FUNC_TYPE = ctypes.CFUNCTYPE(ctypes.c_double, *ct_argtypes)
+		FUNC_TYPE = ctypes.CFUNCTYPE(ctypes.c_int, *ct_argtypes)
 		py_fun = FUNC_TYPE(func_ptr_int)
 
 		return py_fun
