@@ -1,7 +1,8 @@
 # Import the llvmpy modules.
 import ctypes
-import random
+#import random
 import math
+import uuid
 
 from llvm import *
 from llvm.core import *
@@ -29,24 +30,29 @@ class JIT:
 	def compile(self, args, expr):
 		ty_double = Type.double()
 
-		fun_args = []
+		# #Automaticall extract arguments from expression
+		# fun_args_map = {}
+		# for term in postorder_traversal(expr):
+		# 	if term.is_Symbol:
+		# 		idx = len(fun_args_map)
+		# 		if not term in fun_args_map: 
+		# 			fun_args_map[term] = idx
+
+		# fun_args = []
+		# for arg in fun_args_map:
+		# 	fun_args.append(ty_double)
+
+		fun_args = [ty_double for arg in args]
 		fun_args_map = {}
+		for i in range(len(args)):
+			fun_args_map[args[i]] = i
 
-		for term in postorder_traversal(expr):
-			if term.is_Symbol:
-				idx = len(fun_args_map)
-				if not term in fun_args_map: 
-					fun_args_map[term] = idx
-
-		for arg in fun_args_map:
-			fun_args.append(ty_double)
-
-		#	fun_args_map[term] = len(fun_args)-1
-		print fun_args
-		print fun_args_map
+		#print fun_args
+		#print fun_args_map
 
 		ty_func = Type.function(ty_double, fun_args)
-		fun = self.func_module.add_function(ty_func, "fun"+str(random.random()))
+		#fun = self.func_module.add_function(ty_func, "fun"+str(random.random()))
+		fun = self.func_module.add_function(ty_func, "fun"+str(uuid.uuid1()).replace("-",""))
 		#fun.args[0].name = "a"
 		#fun.args[1].name = "b"
 
@@ -69,6 +75,15 @@ class JIT:
 					right = stack.pop()[0]
 					left = stack.pop()[0]
 					stack.append([builder.fadd(left, right), 0.0])
+			elif term.is_Function:
+				if term.__class__ == sin:
+					param = stack.pop()[0]
+					ifun = llvm.core.Function.intrinsic(self.func_module, INTR_SIN, [ty_double])
+					stack.append([builder.call(ifun, [param]), 0.0])
+				elif term.__class__ == cos:
+					param = stack.pop()[0]
+					ifun = llvm.core.Function.intrinsic(self.func_module, INTR_COS, [ty_double])
+					stack.append([builder.call(ifun, [param]), 0.0])
 			elif term.is_Pow:
 				tmp = stack.pop()
 				right = tmp[0]
@@ -88,7 +103,7 @@ class JIT:
 		builder.ret(stack.pop()[0])
 		#print self.func_module
 
-		ct_argtypes = [ctypes.c_double]
+		ct_argtypes = [ctypes.c_double for arg in args]
 		func_ptr_int = self.ee.get_pointer_to_function( fun )
 		FUNC_TYPE = ctypes.CFUNCTYPE(ctypes.c_double, *ct_argtypes)
 		py_fun = FUNC_TYPE(func_ptr_int)
