@@ -2,15 +2,15 @@ from sympy import *
 from sympy.physics.mechanics import *
 from sympy.physics.mechanics import mechanics_printing
 from jit_compile import JIT
+from numpy import sin, cos, linspace, zeros
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
 
 q1, q2 = dynamicsymbols('q1 q2')
 q1d, q2d = dynamicsymbols('q1 q2', 1)
 u1, u2 = dynamicsymbols('u1 u2')
 u1d, u2d = dynamicsymbols('u1 u2', 1)
 l, m, g = symbols('l m g')
-
-
-
 
 N = ReferenceFrame('N')
 A = N.orientnew('A', 'Axis', [q1, N.z])
@@ -66,11 +66,6 @@ for i in range(dim[0]):
 
 # for func in forcing_vector_func:
 # 	print func(1,2,3,4,5,6,7)
-
-
-from numpy import sin, cos, linspace, zeros
-import matplotlib.pyplot as plt
-from scipy.integrate import odeint
 
 def rhs(y, t, l, m, g):
     # q1 = y[0]
