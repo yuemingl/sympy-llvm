@@ -101,7 +101,7 @@ class JIT:
 				print "ERROR: Unknown function in expression!"
 
 		builder.ret(stack.pop()[0])
-		#print self.func_module
+		print self.func_module
 
 		ct_argtypes = [ctypes.c_double for arg in args]
 		func_ptr_int = self.ee.get_pointer_to_function( fun )
@@ -182,12 +182,14 @@ class JIT:
 			idx += 1
 
 		builder.ret(Constant.int(Type.int(), 0))
-		print self.func_module
+		#print self.func_module
 
 		ct_argtypes = [ctypes.c_double for arg in args]
 		ct_argtypes.append(ctypes.POINTER(ctypes.c_double*len(exprs)))
+		#ct_argtypes = [ctypes.POINTER(ctypes.c_double*len(exprs))] + [ctypes.c_double for arg in args]
 		func_ptr_int = self.ee.get_pointer_to_function( fun )
 		FUNC_TYPE = ctypes.CFUNCTYPE(ctypes.c_int, *ct_argtypes)
 		py_fun = FUNC_TYPE(func_ptr_int)
 
+		#int py_fun(double*outAry, double x, double y, double z) 
 		return py_fun
