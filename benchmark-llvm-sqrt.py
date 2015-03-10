@@ -4,9 +4,6 @@ from sympy.abc import x
 
 NExpr = 10
 
-import random
-print random.random()
-
 f_exprs = []
 for i in range(1,NExpr):
 	expr = reduce(lambda a, b:a+b, [x**(1.0/(j+1)) for j in range(0,i)])

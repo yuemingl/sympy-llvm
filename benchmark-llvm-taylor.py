@@ -6,9 +6,6 @@ from sympy.abc import x
 
 NExpr = 10
 
-import random
-print random.random()
-
 f_exprs = []
 for i in range(1,NExpr):
 	expr = reduce(lambda a, b:a+b, [1.0/factorial(j)*x**j for j in range(0,i)])
@@ -24,7 +21,7 @@ print "LLVM JIT eval value= "
 for g in g1:
 	print g(0.1)
 
-N=100000
+N=10000000
 for g in g1:
 	ts = time.time()
 	for j in range(N):

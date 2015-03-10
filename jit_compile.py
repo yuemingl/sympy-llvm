@@ -211,8 +211,8 @@ class JIT:
 		for i in range(len(args)):
 			fun_args_map[args[i]] = i
 
-		print fun_args
-		print fun_args_map
+		#print fun_args
+		#print fun_args_map
 
 		ty_func = Type.function(Type.int(), fun_args)
 		fun = self.func_module.add_function(ty_func, "fun"+str(uuid.uuid1()).replace("-",""))
@@ -220,8 +220,8 @@ class JIT:
 		bb = fun.append_basic_block("block1")
 		builder = Builder.new(bb)
 
-		pOut = builder.bitcast(fun.args[-1], Type.pointer(ty_double))
-
+		#pOut = builder.bitcast(fun.args[-1], Type.pointer(ty_double))
+		pOutAry8 = builder.bitcast(fun.args[-1], Type.pointer(Type.int(8)))
 		idx = 0
 		for expr in exprs:
 			stack = []
@@ -275,21 +275,22 @@ class JIT:
 					print "ERROR: Unknown function in expression!"
 			val = stack.pop()[0]
 			#pVecRlt = builder.alloca(Type.pointer(ty_vector))
-			#builder.store(ele, pVecRlt)
-			# imemcpy = llvm.core.Function.intrinsic(self.func_module, INTR_MEMCPY, Type.int(8))
-			# pVecRlt8 = builder.bitcast(pVecRlt, Type.pointer(Type.int(8)))
-			# pOutAry8 = builder.bitcast(fun.args[-1], Type.pointer(Type.int(8)))
-			# builder.call(imemcpy, [pOutAry8, pVecRlt, 4])
-			for i in range(vlen):
-				#builder.gep(val, [Constant.int(Type.int(), 0), Constant.int(Type.int(), idx*vlen+i)])
-				ele = builder.extract_element(val, Constant.int(Type.int(), i))
-				pOut2 = builder.gep(pOut, [Constant.int(Type.int(), idx*vlen+i)])
-				builder.store(ele, pOut2)
+			pVecRlt = builder.alloca(ty_vector)
+			builder.store(val, pVecRlt)
+			pVecRlt8 = builder.bitcast(pVecRlt, Type.pointer(Type.int(8)))
+			pCurOutAry8 = builder.gep(pOutAry8, [Constant.int(Type.int(8), idx*vlen*8)])
+			imemcpy = llvm.core.Function.intrinsic(self.func_module, INTR_MEMCPY, [Type.pointer(Type.int(8)), Type.pointer(Type.int(8)), Type.int(64)])
+			builder.call(imemcpy, [pCurOutAry8, pVecRlt8, Constant.int(Type.int(64),outLen*8),Constant.int(Type.int(32), 4),Constant.int(Type.int(1), 0)])
+			# for i in range(vlen):
+			# 	#builder.gep(val, [Constant.int(Type.int(), 0), Constant.int(Type.int(), idx*vlen+i)])
+			# 	ele = builder.extract_element(val, Constant.int(Type.int(), i))
+			# 	pOut2 = builder.gep(pOut, [Constant.int(Type.int(), idx*vlen+i)])
+			# 	builder.store(ele, pOut2)
 
 			idx += 1
 
 		builder.ret(Constant.int(Type.int(), 0))
-		print self.func_module
+		#print self.func_module
 
 		ct_argtypes = [ctypes.POINTER(ctypes.c_double*vlen) for arg in args]
 		ct_argtypes.append(ctypes.POINTER(ctypes.c_double*outLen))
