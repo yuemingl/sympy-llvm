@@ -19,7 +19,7 @@ print "LLVM JIT eval value= "
 for g in g1:
 	print g(0.1)
 
-N=100000
+N=10000000
 for g in g1:
 	ts = time.time()
 	for j in range(N):

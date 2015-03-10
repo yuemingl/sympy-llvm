@@ -33,7 +33,7 @@ for g in g2:
 	print g(0.1)	
 
 
-N=100000
+N=10000000
 print "Total loops:",N
 
 for i in range(len(f_exprs)):

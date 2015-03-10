@@ -11,7 +11,7 @@ for i in range(1,NExpr):
 	f_exprs.append(expr)
 	#print expr
 
-vlen = 2
+vlen = 256
 ts = time.time()
 g1 = map(lambda a:JIT().compile3([x], vlen, [a]), f_exprs)
 te = time.time()
