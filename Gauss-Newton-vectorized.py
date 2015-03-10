@@ -38,9 +38,9 @@ def Gauss_Newton(eq, data_dict, init_params_dict, eps=1e-4, max_iter=100):
 	
 	for it in range(max_iter):
 		outAryJ = (c_double*len_J)()
-		funcJ(*tuple(init_vals + [outAryJ]))
+		funcJ(*tuple(init_vals + [byref(outAryJ)]))
 		outAryRs = (c_double*len_rs)()
-		funcRs(*tuple(init_vals+[outAryRs]))
+		funcRs(*tuple(init_vals+[byref(outAryRs)]))
 
 		NJ = [] #Jacobian matrix, dim: (nRow,nCol)=(dlen, nparams)
 		for row in range(dlen):
