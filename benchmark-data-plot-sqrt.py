@@ -138,15 +138,15 @@ for i in range(len(lambdify)):
 
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
-x = np.arange(len(llvm))
-x = np.arange(len(llvm)-1)+2
-l1.pop(0)
-l2.pop(0)
-l3.pop(0)
-l4.pop(0)
-l5.pop(0)
-l6.pop(0)
-l7.pop(0)
+x = np.arange(len(llvm))+1
+# x = np.arange(len(llvm)-1)+2
+# l1.pop(0)
+# l2.pop(0)
+# l3.pop(0)
+# l4.pop(0)
+# l5.pop(0)
+# l6.pop(0)
+# l7.pop(0)
 
 line, = plt.plot(x, l1, 's-', linewidth=1)
 line, = plt.plot(x, l2, 'd-', linewidth=1)
@@ -157,7 +157,8 @@ line, = plt.plot(x, l6, '*-', linewidth=1)
 line, = plt.plot(x, l7, 'p-', linewidth=1)
 ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'theano_vec', 'theano_scalar'])
 ax.set_title('Benchmark: 10M Evaluaton for Ploy with Fractional Powers')
-ax.set_xlabel('Sum[x^(1/n)] for n =2,...,9')
+ax.set_xlabel('Sum[x^(1/n)] for n =1,...,9')
+#ax.set_xlabel('Sum[x^(1/n)] for n =2,...,9')
 ax.set_ylabel('Speed up')
 plt.show()
 
