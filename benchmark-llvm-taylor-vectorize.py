@@ -4,6 +4,8 @@ from sympy import *
 from sympy.abc import x
 from ctypes import *
 
+print __file__
+
 NExpr = 10
 
 f_exprs = []

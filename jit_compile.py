@@ -101,7 +101,7 @@ class JIT:
 				print "ERROR: Unknown function in expression!"
 
 		builder.ret(stack.pop()[0])
-		print self.func_module
+		#print self.func_module
 
 		ct_argtypes = [ctypes.c_double for arg in args]
 		func_ptr_int = self.ee.get_pointer_to_function( fun )

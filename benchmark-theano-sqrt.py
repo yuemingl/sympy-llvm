@@ -3,6 +3,8 @@ import theano.tensor as T
 from theano import function
 from sympy.printing.theanocode import theano_function
 
+print __file__
+
 NExpr = 10
 
 x = T.dscalar('x')
@@ -41,12 +43,11 @@ for i in range(len(f_exprs)):
 	for j in range(N):
 		g1[i](0.1)
 	te = time.time()
-	print "theano function time: ",(te-ts)
-
+	print "theano function time: ",(te-ts), " expr=", f_exprs[i] 
 
 for i in range(len(f_exprs)):
 	ts = time.time()
 	for j in range(N):
 		g1[i](0.1)
 	te = time.time()
-	print "theano theano_function time: ",(te-ts)
+	print "theano theano_function time: ",(te-ts), " expr=", f_exprs[i] 

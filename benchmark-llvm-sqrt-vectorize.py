@@ -3,6 +3,8 @@ from jit_compile import JIT
 from sympy.abc import x
 from ctypes import *
 
+print __file__
+
 NExpr = 10
 
 f_exprs = []
@@ -11,7 +13,7 @@ for i in range(1,NExpr):
 	f_exprs.append(expr)
 	#print expr
 
-vlen = 256
+vlen = 128
 ts = time.time()
 g1 = map(lambda a:JIT().compile3([x], vlen, [a]), f_exprs)
 te = time.time()

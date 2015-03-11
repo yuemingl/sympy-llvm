@@ -2,6 +2,8 @@ import time
 from jit_compile import JIT
 from sympy.abc import x
 
+print __file__
+
 NExpr = 10
 
 f_exprs = []
@@ -20,10 +22,10 @@ for g in g1:
 	print g(0.1)
 
 N=10000000
-for g in g1:
+for i in range(len(g1)):
 	ts = time.time()
 	for j in range(N):
-		g(0.1)
+		g1[i](0.1)
 	te = time.time()
-	print "LLVM JIT time: ", (te-ts)
+	print "LLVM JIT time: ", (te-ts), " expr=", f_exprs[i] 
 

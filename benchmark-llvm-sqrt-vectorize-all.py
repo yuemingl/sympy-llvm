@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from my_statistics import mean, std
 import numpy as np
 
+print __file__
+
 NExpr = 10
 
 f_exprs = []
@@ -76,7 +78,7 @@ p2 = plt.bar(ind, meanEval, width, color='y',
              bottom=meanCompile, yerr=stdEval)
 
 # Add a title, axes labels and a legend.
-ax.set_title('LLVM Sqrt Vectorized')
+ax.set_title('Vectorized Evaluation for Ploy with Fractional Powers')
 ax.set_xlabel('Vector Length')
 ax.set_ylabel('Time (s)')
 plt.xticks(ind+width/2., tuple(map(lambda l:str(l), VectorLens)) )

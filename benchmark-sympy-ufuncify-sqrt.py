@@ -7,6 +7,8 @@ from sympy.abc import x
 from sympy.utilities.autowrap import ufuncify
 from sympy.utilities.lambdify import lambdify
 
+print __file__
+
 NExpr = 10
 
 f_exprs = []
@@ -34,16 +36,16 @@ for g in g2:
 	print g(0.1)
 
 N=10000000
-for g in g1:
+for i in range(len(f_exprs)):
 	ts = time.time()
 	for j in range(N):
-		g(0.1)
+		g1[i](0.1)
 	te = time.time()
-	print "sympy ufuncify time: ", (te-ts)
+	print "sympy ufuncify time: ", (te-ts), " expr=", f_exprs[i] 
 
-for g in g2:
+for i in range(len(f_exprs)):
 	ts = time.time()
 	for j in range(N):
-		g(0.1)
+		g2[i](0.1)
 	te = time.time()
-	print "sympy lambdify time: ", (te-ts)
+	print "sympy lambdify time: ", (te-ts), " expr=", f_exprs[i] 

@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from my_statistics import mean, std
 import numpy as np
 
+print __file__
+
 NExpr = 10
 
 f_exprs = []
@@ -16,8 +18,8 @@ for i in range(1,NExpr):
 	#print expr
 
 NN=102400 #Total number of data (# of evaluation)
-#VectorLens = [1, 2, 4, 8, 16, 32, 64, 128]
-VectorLens = [1, 2, 4, 8, 16, 32, 64, 128, 256,1024]
+VectorLens = [1, 2, 4, 8, 16, 32, 64, 128]
+#VectorLens = [1, 2, 4, 8, 16, 32, 64, 128, 256,1024]
 TotalCompileTimes = []
 TotalEvalTimes = []
 for nData in VectorLens:
@@ -77,7 +79,7 @@ ind = ind = np.arange(len(VectorLens))
 p2 = plt.bar(ind, meanEval, width, color='y', yerr=stdEval)
 
 # Add a title, axes labels and a legend.
-ax.set_title('LLVM Taylor Vectorized')
+ax.set_title('Vectorized Evaluation for Taylor Series')
 ax.set_xlabel('Vector Length')
 ax.set_ylabel('Time (s)')
 plt.xticks(ind+width/2., tuple(map(lambda l:str(l), VectorLens)) )

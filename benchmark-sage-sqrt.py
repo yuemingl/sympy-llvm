@@ -22,9 +22,9 @@ for g in g1:
 	print g(0.1)
 
 N=10000000
-for g in g1:
+for i in range(len(f_exprs)):
 	ts = time.time()
 	for j in range(N):
 		g(0.1)
 	te = time.time()
-	print "sage fast_float time: ", (te-ts)
+	print "sage fast_float time: ", (te-ts), " expr=", f_exprs[i]
