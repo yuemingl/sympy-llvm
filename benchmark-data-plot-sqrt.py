@@ -3,6 +3,17 @@ import matplotlib.pyplot as plt
 
 #-----------------------------------------Ploy with Fractional Powers-------------------------------------------------------
 llvm_vec = [
+# #vlen=128
+# 0.0682580471039,
+# 0.677155971527 ,
+# 1.25157594681  ,
+# 1.84160709381  ,
+# 2.41642284393  ,
+# 2.98730587959  ,
+# 3.56346201897  ,
+# 4.14961910248  ,
+# 4.74849295616  ,
+#vlen=256
 0.037257194519,
 0.640280008316,
 1.21580410004 ,
@@ -76,23 +87,77 @@ theano_vec = [
 ]
 
 theano=[
-
+74.1050848961,
+71.7205440998,
+72.3560888767,
+73.5202741623,
+74.6754498482,
+75.8028309345,
+77.20499897  ,
+77.0179371834,
+77.8787260056,
 ]
 
 
-# Create an empty figure.
+# fig = plt.figure()
+# ax = fig.add_subplot(1, 1, 1)
+# x = np.arange(len(llvm))+1
+# line, = plt.plot(x, llvm_vec,   's-', linewidth=1)
+# line, = plt.plot(x, llvm,       'd-', linewidth=1)
+# line, = plt.plot(x, sage,       'o-', linewidth=1)
+# line, = plt.plot(x, ufuncify,   '>-', linewidth=1)
+# line, = plt.plot(x, lambdify,   '<-', linewidth=1)
+# line, = plt.plot(x, theano_vec, '*-', linewidth=1)
+# ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'lambdify', 'theano_vec'])
+# ax.set_title('Benchmark: 10M Evaluaton for Ploy with Fractional Powers')
+# ax.set_xlabel('Sum[x^(1/n)] for n =1,...,9')
+# ax.set_ylabel('Time (s)')
+# plt.show()
+
+l1=[]
+for i in range(len(lambdify)):
+	l1.append(lambdify[i]/llvm_vec[i])
+l2=[]
+for i in range(len(lambdify)):
+	l2.append(lambdify[i]/llvm[i])
+l3=[]
+for i in range(len(lambdify)):
+	l3.append(lambdify[i]/sage[i])
+l4=[]
+for i in range(len(lambdify)):
+	l4.append(lambdify[i]/ufuncify[i])
+l5=[]
+for i in range(len(lambdify)):
+	l5.append(lambdify[i]/lambdify[i])
+l6=[]
+for i in range(len(lambdify)):
+	l6.append(lambdify[i]/theano_vec[i])
+l7=[]
+for i in range(len(lambdify)):
+	l7.append(lambdify[i]/theano[i])
+
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
-x = np.arange(len(llvm))+1
-line, = plt.plot(x, llvm_vec,   's-', linewidth=1)
-line, = plt.plot(x, llvm,       'd-', linewidth=1)
-line, = plt.plot(x, sage,       'o-', linewidth=1)
-line, = plt.plot(x, ufuncify,   '>-', linewidth=1)
-line, = plt.plot(x, lambdify,   '<-', linewidth=1)
-line, = plt.plot(x, theano_vec, '*-', linewidth=1)
-ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'lambdify', 'theano_vec'])
+x = np.arange(len(llvm))
+x = np.arange(len(llvm)-1)+2
+l1.pop(0)
+l2.pop(0)
+l3.pop(0)
+l4.pop(0)
+l5.pop(0)
+l6.pop(0)
+l7.pop(0)
+
+line, = plt.plot(x, l1, 's-', linewidth=1)
+line, = plt.plot(x, l2, 'd-', linewidth=1)
+line, = plt.plot(x, l3, 'o-', linewidth=1)
+line, = plt.plot(x, l4, '>-', linewidth=1)
+#line, = plt.plot(x, l5, '<-', linewidth=1)
+line, = plt.plot(x, l6, '*-', linewidth=1)
+line, = plt.plot(x, l7, 'p-', linewidth=1)
+ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'theano_vec', 'theano_scalar'])
 ax.set_title('Benchmark: 10M Evaluaton for Ploy with Fractional Powers')
-ax.set_xlabel('Sum[x^(1/n)] for n =1,...,9')
-ax.set_ylabel('Time (s)')
+ax.set_xlabel('Sum[x^(1/n)] for n =2,...,9')
+ax.set_ylabel('Speed up')
 plt.show()
 

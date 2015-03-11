@@ -75,21 +75,66 @@ theano_vec=[
 ]
 
 theano=[
-
+73.8917908669,
+71.4365959167,
+71.5178279877,
+78.7809510231,
+72.6675970554,
+73.3062839508,
+74.5479679108,
+73.915309906 ,
+76.4422588348,
 ]
 
-# Create an empty figure.
+# fig = plt.figure()
+# ax = fig.add_subplot(1, 1, 1)
+# x = np.arange(len(llvm))
+# line, = plt.plot(x, llvm_vec,   's-', linewidth=1)
+# line, = plt.plot(x, llvm,       'd-', linewidth=1)
+# line, = plt.plot(x, sage,       'o-', linewidth=1)
+# line, = plt.plot(x, ufuncify,   '>-', linewidth=1)
+# line, = plt.plot(x, lambdify,   '<-', linewidth=1)
+# line, = plt.plot(x, theano_vec, '*-', linewidth=1)
+# ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'lambdify', 'theano_vec'])
+# ax.set_title('Benchmark: 10M Evaluaton for Tayor Series of e^x at x=0')
+# ax.set_xlabel('Sum[(1/n!)x^n] for n =0,...,8')
+# ax.set_ylabel('Time (s)')
+# plt.show()
+
+l1=[]
+for i in range(len(lambdify)):
+	l1.append(lambdify[i]/llvm_vec[i])
+l2=[]
+for i in range(len(lambdify)):
+	l2.append(lambdify[i]/llvm[i])
+l3=[]
+for i in range(len(lambdify)):
+	l3.append(lambdify[i]/sage[i])
+l4=[]
+for i in range(len(lambdify)):
+	l4.append(lambdify[i]/ufuncify[i])
+l5=[]
+for i in range(len(lambdify)):
+	l5.append(lambdify[i]/lambdify[i])
+l6=[]
+for i in range(len(lambdify)):
+	l6.append(lambdify[i]/theano_vec[i])
+l7=[]
+for i in range(len(lambdify)):
+	l7.append(lambdify[i]/theano[i])
+
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 x = np.arange(len(llvm))
-line, = plt.plot(x, llvm_vec,   's-', linewidth=1)
-line, = plt.plot(x, llvm,       'd-', linewidth=1)
-line, = plt.plot(x, sage,       'o-', linewidth=1)
-line, = plt.plot(x, ufuncify,   '>-', linewidth=1)
-line, = plt.plot(x, lambdify,   '<-', linewidth=1)
-line, = plt.plot(x, theano_vec, '*-', linewidth=1)
-ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'lambdify', 'theano_vec'])
+line, = plt.plot(x, l1, 's-', linewidth=1)
+line, = plt.plot(x, l2, 'd-', linewidth=1)
+line, = plt.plot(x, l3, 'o-', linewidth=1)
+line, = plt.plot(x, l4, '>-', linewidth=1)
+#line, = plt.plot(x, l5, '<-', linewidth=1)
+line, = plt.plot(x, l6, '*-', linewidth=1)
+line, = plt.plot(x, l7, 'p-', linewidth=1)
+ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'theano_vec', 'theano_scalar'])
 ax.set_title('Benchmark: 10M Evaluaton for Tayor Series of e^x at x=0')
 ax.set_xlabel('Sum[(1/n!)x^n] for n =0,...,8')
-ax.set_ylabel('Time (s)')
+ax.set_ylabel('Speed up')
 plt.show()

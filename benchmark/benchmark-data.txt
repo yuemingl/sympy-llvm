@@ -108,7 +108,6 @@ address sizes	: 39 bits physical, 48 bits virtual
 -----------------------------------------Ploy with Fractional Powers-------------------------------------------------------
 
 benchmark-llvm-sqrt-vectorize.py
-vlen=256
 Time= 0.037257194519  expr= x**1.0
 Time= 0.640280008316  expr= x**0.5 + x**1.0
 Time= 1.21580410004  expr= x**0.333333333333333 + x**0.5 + x**1.0
@@ -119,6 +118,18 @@ Time= 3.61068415642  expr= x**0.142857142857143 + x**0.166666666666667 + x**0.2 
 Time= 4.2643969059  expr= x**0.125 + x**0.142857142857143 + x**0.166666666666667 + x**0.2 + x**0.25 + x**0.333333333333333 + x**0.5 + x**1.0
 Time= 4.89458703995  expr= x**0.111111111111111 + x**0.125 + x**0.142857142857143 + x**0.166666666666667 + x**0.2 + x**0.25 + x**0.333333333333333 + x**0.5 + x**1.0
 vlen= 256 Time: compile= 1.92048120499 ,compute= 21.867613554 ,total= 23.788094759
+
+Time= 0.0682580471039  expr= x**1.0
+Time= 0.677155971527  expr= x**0.5 + x**1.0
+Time= 1.25157594681  expr= x**0.333333333333333 + x**0.5 + x**1.0
+Time= 1.84160709381  expr= x**0.25 + x**0.333333333333333 + x**0.5 + x**1.0
+Time= 2.41642284393  expr= x**0.2 + x**0.25 + x**0.333333333333333 + x**0.5 + x**1.0
+Time= 2.98730587959  expr= x**0.166666666666667 + x**0.2 + x**0.25 + x**0.333333333333333 + x**0.5 + x**1.0
+Time= 3.56346201897  expr= x**0.142857142857143 + x**0.166666666666667 + x**0.2 + x**0.25 + x**0.333333333333333 + x**0.5 + x**1.0
+Time= 4.14961910248  expr= x**0.125 + x**0.142857142857143 + x**0.166666666666667 + x**0.2 + x**0.25 + x**0.333333333333333 + x**0.5 + x**1.0
+Time= 4.74849295616  expr= x**0.111111111111111 + x**0.125 + x**0.142857142857143 + x**0.166666666666667 + x**0.2 + x**0.25 + x**0.333333333333333 + x**0.5 + x**1.0
+vlen= 128 Time: compile= 0.609242200851 ,compute= 21.7038998604 ,total= 22.3131420612
+
 
 benchmark-llvm-sqrt.py
 LLVM JIT time:  3.50151109695  expr= x**1.0
@@ -188,26 +199,28 @@ sympy.printing.theanocode theano_function time:  4.07272791862  expr= Elemwise{a
 sympy.printing.theanocode theano_function time:  5.00644207001  expr= Elemwise{add,no_inplace}.0
 
 
-python benchmark-theano-taylor.py
+yliu@yliu-dev:~/workspace_py/sympy-llvm$ python benchmark-theano-sqrt.py 
+/usr/local/lib/python2.7/dist-packages/sympy/printing/theanocode.py:16: UserWarning: theano modules are deprecated and will be removed in release 0.7
+  from theano.sandbox import linalg as tlinalg
+theano function time:  74.1050848961  expr= Elemwise{pow,no_inplace}.0
+theano function time:  71.7205440998  expr= Elemwise{add,no_inplace}.0
+theano function time:  72.3560888767  expr= Elemwise{add,no_inplace}.0
+theano function time:  73.5202741623  expr= Elemwise{add,no_inplace}.0
+theano function time:  74.6754498482  expr= Elemwise{add,no_inplace}.0
+theano function time:  75.8028309345  expr= Elemwise{add,no_inplace}.0
+theano function time:  77.20499897   expr= Elemwise{add,no_inplace}.0
+theano function time:  77.0179371834  expr= Elemwise{add,no_inplace}.0
+theano function time:  77.8787260056  expr= Elemwise{add,no_inplace}.0
+theano theano_function time:  72.9467160702  expr= Elemwise{pow,no_inplace}.0
+theano theano_function time:  71.8329679966  expr= Elemwise{add,no_inplace}.0
+theano theano_function time:  73.4284508228  expr= Elemwise{add,no_inplace}.0
+theano theano_function time:  73.6405601501  expr= Elemwise{add,no_inplace}.0
+theano theano_function time:  74.7291829586  expr= Elemwise{add,no_inplace}.0
+theano theano_function time:  75.8065569401  expr= Elemwise{add,no_inplace}.0
+theano theano_function time:  80.3459968567  expr= Elemwise{add,no_inplace}.0
+theano theano_function time:  78.4058189392  expr= Elemwise{add,no_inplace}.0
+theano theano_function time:  83.4859149456  expr= Elemwise{add,no_inplace}.0
 
-theano function time:  72.6388208866
-theano function time:  71.3889110088
-theano function time:  72.3997349739
-theano function time:  73.4109020233
-theano function time:  72.7839140892
-theano function time:  72.8774409294
-theano function time:  74.6961190701
-theano function time:  73.6543259621
-theano function time:  75.0450501442
-sympy.printing.theanocode theano_function time:  73.4831109047
-sympy.printing.theanocode theano_function time:  71.2921769619
-sympy.printing.theanocode theano_function time:  71.80509305
-sympy.printing.theanocode theano_function time:  72.7636158466
-sympy.printing.theanocode theano_function time:  72.6897761822
-sympy.printing.theanocode theano_function time:  73.750068903
-sympy.printing.theanocode theano_function time:  74.4339191914
-sympy.printing.theanocode theano_function time:  74.6647601128
-sympy.printing.theanocode theano_function time:  73.4794101715
 
 -----------------------------------------Taylor Series------------------------------------------------------
 /home/yliu/workspace_py/sympy-llvm/benchmark-llvm-taylor-vectorize.py
