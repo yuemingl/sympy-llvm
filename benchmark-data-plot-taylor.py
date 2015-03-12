@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from math import log
 
 #-----------------------------------------Taylor Series------------------------------------------------------
 llvm_vec=[
@@ -86,6 +87,30 @@ theano=[
 76.4422588348,
 ]
 
+SymJava=[
+0.007,
+0.014,
+0.781,
+1.451,
+2.151,
+2.863,
+3.537,
+4.287,
+4.98 ,
+]
+
+SymLLVM=[
+0.001794,
+0.001676,
+0.001672,
+0.002529,
+0.003131,
+0.003551,
+0.003629,
+0.004573,
+0.004784,
+0.005324,
+]
 # fig = plt.figure()
 # ax = fig.add_subplot(1, 1, 1)
 # x = np.arange(len(llvm))
@@ -102,26 +127,23 @@ theano=[
 # plt.show()
 
 l1=[]
-for i in range(len(lambdify)):
-	l1.append(lambdify[i]/llvm_vec[i])
-l2=[]
-for i in range(len(lambdify)):
-	l2.append(lambdify[i]/llvm[i])
-l3=[]
-for i in range(len(lambdify)):
-	l3.append(lambdify[i]/sage[i])
-l4=[]
-for i in range(len(lambdify)):
-	l4.append(lambdify[i]/ufuncify[i])
-l5=[]
-for i in range(len(lambdify)):
-	l5.append(lambdify[i]/lambdify[i])
-l6=[]
-for i in range(len(lambdify)):
-	l6.append(lambdify[i]/theano_vec[i])
-l7=[]
-for i in range(len(lambdify)):
-	l7.append(lambdify[i]/theano[i])
+l2=[] 
+l3=[] 
+l4=[] 
+l5=[] 
+l6=[] 
+l7=[] 
+l8=[] 
+l9=[] 
+for i in range(len(lambdify)): l1.append(log(lambdify[i]/llvm_vec[i]))
+for i in range(len(lambdify)): l2.append(log(lambdify[i]/llvm[i]))
+for i in range(len(lambdify)): l3.append(log(lambdify[i]/sage[i]))
+for i in range(len(lambdify)): l4.append(log(lambdify[i]/ufuncify[i]))
+for i in range(len(lambdify)): l5.append(log(lambdify[i]/lambdify[i]))
+for i in range(len(lambdify)): l6.append(log(lambdify[i]/theano_vec[i]))
+for i in range(len(lambdify)): l7.append(log(lambdify[i]/theano[i]))
+for i in range(len(lambdify)): l8.append(log(lambdify[i]/SymJava[i]))
+for i in range(len(lambdify)): l9.append(log(lambdify[i]/SymLLVM[i]))
 
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
@@ -133,8 +155,10 @@ line, = plt.plot(x, l4, '>-', linewidth=1)
 #line, = plt.plot(x, l5, '<-', linewidth=1)
 line, = plt.plot(x, l6, '*-', linewidth=1)
 line, = plt.plot(x, l7, 'p-', linewidth=1)
-ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'theano_vec', 'theano_scalar'])
+line, = plt.plot(x, l8, 'h-', linewidth=1)
+line, = plt.plot(x, l9, 'D-', linewidth=1)
+ax.legend(['llvm_vec', 'llvm_scalar', 'sage', 'ufuncify', 'theano_vec', 'theano_scalar', 'SymJava'])
 ax.set_title('Benchmark: 10M Evaluaton for Tayor Series of e^x at x=0')
 ax.set_xlabel('Sum[(1/n!)x^n] for n =0,...,8')
-ax.set_ylabel('Speed up')
+ax.set_ylabel('Speed up (log)')
 plt.show()
