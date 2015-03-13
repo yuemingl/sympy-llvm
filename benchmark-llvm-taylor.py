@@ -15,7 +15,7 @@ for i in range(1,NExpr):
 	print expr
 
 ts = time.time()
-g1 = map(lambda a:JIT().compile([x], a), f_exprs)
+g1 = map(lambda a:JIT().Compile([x], a), f_exprs)
 te = time.time()
 print g1
 print "LLVM JIT compile time: ",(te-ts)

@@ -27,7 +27,8 @@ class JIT:
 	# on platforms that support it, or an interpreter otherwise.
 	ee = ExecutionEngine.new(func_module)
 
-	def compile(self, args, expr):
+	# Return : #double py_fun(double x, double y, double z) 
+	def Compile(self, args, expr):
 		ty_double = Type.double()
 
 		# #Automaticall extract arguments from expression
@@ -111,8 +112,8 @@ class JIT:
 		return py_fun
 
 
-
-	def compile2(self, args, exprs):
+	# Return : #int py_fun(double x, double y, double z, double*outAry) 
+	def VecCompile(self, args, exprs):
 		ty_double = Type.double()
 		ty_ptr = Type.pointer(ty_double)
 
@@ -191,11 +192,11 @@ class JIT:
 		FUNC_TYPE = ctypes.CFUNCTYPE(ctypes.c_int, *ct_argtypes)
 		py_fun = FUNC_TYPE(func_ptr_int)
 
-		#int py_fun(double*outAry, double x, double y, double z) 
+		#int py_fun(double x, double y, double z, double*outAry) 
 		return py_fun
 
-
-	def compile3(self, args, vlen, exprs):
+	#Return int py_fun(double *x, double *y, double *z, double *outAry) 
+	def VecPtrCompile(self, args, vlen, exprs):
 		outLen = vlen*len(exprs);
 
 		ty_double = Type.double()

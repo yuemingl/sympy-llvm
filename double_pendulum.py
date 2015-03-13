@@ -61,7 +61,7 @@ for i in range(dim[0]):
 		(q2, x2),
 		(u1, x3),
 		(u2, x4)])
-	func = JIT().compile([l,m,g,x1,x2,x3,x4], ele)
+	func = JIT().Compile([l,m,g,x1,x2,x3,x4], ele)
 	forcing_vector_func.append(func)
 
 # for func in forcing_vector_func:

@@ -4,7 +4,7 @@ from ctypes import *
 
 vlen = 3
 exprs = [x+y, x-y]
-func = JIT().compile3([x, y], vlen, exprs)
+func = JIT().VecPtrCompile([x, y], vlen, exprs)
 
 print "Vector return values by parameter reference"
 #Need a buffer
