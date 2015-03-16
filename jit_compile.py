@@ -48,8 +48,8 @@ class JIT:
 		for i in range(len(args)):
 			fun_args_map[args[i]] = i
 
-		#print fun_args
-		#print fun_args_map
+		# print fun_args
+		# print fun_args_map
 
 		ty_func = Type.function(ty_double, fun_args)
 		#fun = self.func_module.add_function(ty_func, "fun"+str(random.random()))
