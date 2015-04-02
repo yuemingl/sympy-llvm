@@ -10,22 +10,29 @@ from llvm.ee import *                     # new import: ee = Execution Engine
 
 from sympy import *
 
-def singleton(cls):
-    instances = {}
-    def getinstance():
-        if cls not in instances:
-            instances[cls] = cls()
-        return instances[cls]
-    return getinstance
+# def singleton(cls):
+#     instances = {}
+#     def getinstance():
+#         if cls not in instances:
+#             instances[cls] = cls()
+#         return instances[cls]
+#     return getinstance
 
-@singleton
+func_module_cache = [];
+
+#@singleton
 class JIT:
 	# Create an (empty) module.
-	func_module = Module.new("func_module")
+	func_module = Module.new("func_module"+str(uuid.uuid1()).replace("-",""))
 
 	# Create an execution engine object. This will create a JIT compiler
 	# on platforms that support it, or an interpreter otherwise.
 	ee = ExecutionEngine.new(func_module)
+
+	def __init__(self):
+		moduleName = "func_module"+str(uuid.uuid1()).replace("-","")
+		self.func_module = Module.new(moduleName)
+		func_module_cache.append(self.func_module)
 
 	# Return : #double py_fun(double x, double y, double z) 
 	def Compile(self, args, expr):

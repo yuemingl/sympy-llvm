@@ -9,7 +9,7 @@ func = JIT().VecPtrCompile([x, y], vlen, exprs)
 print "Vector return values by parameter reference"
 #Need a buffer
 outLen = vlen*len(exprs)
-outAry = (c_double*outLen)(1.0,2.0,3.0)
+outAry = (c_double*outLen)()
 print "Before call:"
 for i in outAry: print i,
 
