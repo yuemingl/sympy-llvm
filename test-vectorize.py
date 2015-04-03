@@ -4,10 +4,11 @@ from ctypes import *
 
 vlen = 3
 exprs = [x+y, x-y]
-func = JIT().VecPtrCompile([x, y], vlen, exprs)
+#Vectorized compile with batch evaluation
+func = JIT().VecCompile([x, y], vlen, exprs)
 
-print "Vector return values by parameter reference"
-#Need a buffer
+print "Vector return values (pass by parameter)"
+#Output buffer
 outLen = vlen*len(exprs)
 outAry = (c_double*outLen)()
 print "Before call:"

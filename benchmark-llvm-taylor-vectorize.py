@@ -16,7 +16,7 @@ for i in range(1,NExpr):
 
 vlen = 256
 ts = time.time()
-g1 = map(lambda a: JIT().VecPtrCompile([x], vlen, [a]), f_exprs)
+g1 = map(lambda a: JIT().VecCompile([x], vlen, [a]), f_exprs)
 te = time.time()
 time_compile = (te-ts)
 

@@ -15,7 +15,7 @@ for i in range(1,NExpr):
 
 vlen = 200
 ts = time.time()
-g1 = map(lambda a:JIT().VecPtrCompile([x], vlen, [a]), f_exprs)
+g1 = map(lambda a:JIT().VecCompile([x], vlen, [a]), f_exprs)
 te = time.time()
 time_compile = (te-ts)
 
@@ -43,5 +43,6 @@ print "vlen=", vlen, "Time: compile=", time_compile, ",compute=", time_compute, 
 #vlen= 80 Time: compile= 0.336376905441 ,compute= 22.0920262337 ,total= 22.4284031391
 #vlen= 100 Time: compile= 0.439684867859 ,compute= 22.0058834553 ,total= 22.4455683231
 #vlen= 160 Time: compile= 0.863581895828 ,compute= 21.6410160065 ,total= 22.5045979023
+#vlen= 200 Time: compile= 1.31426787376 ,compute= 21.7608969212 ,total= 23.0751647949
 #vlen= 320 Time: compile= 3.09153103828 ,compute= 22.1314668655 ,total= 25.2229979038
 

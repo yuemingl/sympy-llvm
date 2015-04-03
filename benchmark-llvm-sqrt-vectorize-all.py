@@ -26,7 +26,7 @@ for nData in VectorLens:
 	EvalTimes = []
 	for nTry in range(8):
 		ts = time.time()
-		g1 = map(lambda a:JIT().VecPtrCompile([x], nData, [a]), f_exprs)
+		g1 = map(lambda a:JIT().VecCompile([x], nData, [a]), f_exprs)
 		te = time.time()
 		time_compile = (te-ts)
 

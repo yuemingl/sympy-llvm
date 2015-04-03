@@ -34,7 +34,12 @@ class JIT:
 		self.func_module = Module.new(moduleName)
 		func_module_cache.append(self.func_module)
 
-	# Return : #double py_fun(double x, double y, double z) 
+	# Compile a symbolic expression. The expressions can be evaluted once 
+	# in each call of the returned function
+	#
+	# Returned compiled function definition: 
+	# double py_fun(double x, double y, double z, ...) 
+	#
 	def Compile(self, args, expr):
 		ty_double = Type.double()
 
@@ -118,9 +123,18 @@ class JIT:
 
 		return py_fun
 
+	# Compile a list of expressions. The list of expressions can be evaluted once 
+	# in each call of the returned function
+	#
+	# Returned compiled function definition: 
+	# int py_fun(double x, double y, double z, ..., double*outAry) 
+	#
+	def BatchCompile(self, args, exprs):
+		from sympy.core.numbers import Zero
 
-	# Return : #int py_fun(double x, double y, double z, double*outAry) 
-	def VecCompile(self, args, exprs):
+		if not isinstance(exprs, (list, tuple)):
+			exprs = [exprs]
+
 		ty_double = Type.double()
 		ty_ptr = Type.pointer(ty_double)
 
@@ -142,6 +156,8 @@ class JIT:
 
 		idx = 0
 		for expr in exprs:
+			if isinstance(expr, Zero):
+				next
 			stack = []
 			for term in postorder_traversal(expr):
 				if term.is_Symbol:
@@ -202,8 +218,13 @@ class JIT:
 		#int py_fun(double x, double y, double z, double*outAry) 
 		return py_fun
 
-	#Return int py_fun(double *x, double *y, double *z, double *outAry) 
-	def VecPtrCompile(self, args, vlen, exprs):
+	# Compile a list of expressions. The list of expressions can be evaluted vlen times 
+	# by passing array parameters in each call of the returned function
+	#
+	# Returned compiled function definition: 
+	# int py_fun(double *x, double *y, double *z,..., double *outAry)
+	#
+	def VecCompile(self, args, vlen, exprs):
 		outLen = vlen*len(exprs);
 
 		ty_double = Type.double()
