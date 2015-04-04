@@ -74,16 +74,16 @@ ax = fig.add_subplot(1, 1, 1)
 # Plot the states versus time.
 width = 0.35       # the width of the bars: can also be len(x) sequence
 ind = ind = np.arange(len(VectorLens))
-#p1 = plt.bar(ind, meanCompile,   width, color='r', yerr=stdCompile)
-#p2 = plt.bar(ind, meanEval, width, color='y', bottom=meanCompile, yerr=stdEval)
-p2 = plt.bar(ind, meanEval, width, color='y', yerr=stdEval)
+p1 = plt.bar(ind, meanEval,   width, color='r', yerr=stdCompile)
+p2 = plt.bar(ind, meanCompile, width, color='y', bottom=meanEval, yerr=stdEval)
+#p2 = plt.bar(ind, meanEval, width, color='y', yerr=stdEval)
 
 # Add a title, axes labels and a legend.
 ax.set_title('Vectorized Evaluation for Taylor Series')
-ax.set_xlabel('Vector Length')
+ax.set_xlabel('Length of Vector')
 ax.set_ylabel('Time (s)')
 plt.xticks(ind+width/2., tuple(map(lambda l:str(l), VectorLens)) )
-ax.legend(['JIT Compile Time', 'Evaluation Time'])
+ax.legend(['Evaluation Time', 'JIT Compile Time'])
 
 # Display the figure.
 plt.show()

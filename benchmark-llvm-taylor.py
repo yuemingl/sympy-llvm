@@ -24,7 +24,7 @@ for g in g1:
 	print g(0.1)
 
 N=10000000
-for i in range(len(g1)):
+for g in g1:
 	ts = time.time()
 	for j in range(N):
 		g1[i](0.1)

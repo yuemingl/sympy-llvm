@@ -40,7 +40,7 @@ for g in g2:
 	print g(0.1)
 
 N=10000000
-for i in range(len(f_exprs)):
+for g in g1:
 	ts = time.time()
 	for j in range(N):
 		g1[i](0.1)
