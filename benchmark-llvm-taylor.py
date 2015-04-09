@@ -9,8 +9,8 @@ print __file__
 NExpr = 10
 
 f_exprs = []
-for i in range(1,NExpr):
-	expr = reduce(lambda a, b:a+b, [1.0/factorial(j)*x**j for j in range(0,i)])
+for i in range(0,NExpr):
+	expr = reduce(lambda a, b:a+b, [1.0/factorial(j)*x**j for j in range(0,i+1)])
 	f_exprs.append(expr)
 	print expr
 
@@ -19,15 +19,18 @@ g1 = map(lambda a:JIT().Compile([x], a), f_exprs)
 te = time.time()
 print g1
 print "LLVM JIT compile time: ",(te-ts)
-print "LLVM JIT eval value= "
-for g in g1:
-	print g(0.1)
+#print "LLVM JIT eval value= "
+#for g in g1:
+#	print g(0.1)
 
 N=10000000
-for g in g1:
+xx = 0.1
+out = 0.0
+for i in range(len(g1)):
 	ts = time.time()
 	for j in range(N):
-		g1[i](0.1)
+		xx += 1e-15
+		out += g1[i](xx)
 	te = time.time()
-	print "LLVM JIT time: ", (te-ts), " expr=", f_exprs[i] 
-
+	print "f_exprs[",i,"]: ", (te-ts)
+print "Final Value=", out

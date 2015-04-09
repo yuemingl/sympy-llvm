@@ -13,7 +13,7 @@ for i in range(1,NExpr):
 	f_exprs.append(expr)
 	#print expr
 
-vlen = 200
+vlen = 100
 ts = time.time()
 g1 = map(lambda a:JIT().VecCompile([x], vlen, [a]), f_exprs)
 te = time.time()
@@ -21,20 +21,25 @@ time_compile = (te-ts)
 
 outAry = (c_double*vlen)()
 pX = (c_double*vlen)()
-for i in range(len(pX)):
-	pX[i] = 0.1
 
 NN=10000000
 N=NN/vlen
+xx=0.1
+out=0.0
 time_compute = 0
 for i in range(len(g1)):
 	ts = time.time()
 	for j in range(N):
+		for k in range(vlen):
+			xx += 1e-15
+			pX[k] = xx
 		g1[i](byref(pX), byref(outAry))
+		for k in range(vlen):
+			out += outAry[k]
 	te = time.time()
 	time_compute += (te-ts)
 	print "Time=", (te-ts), " expr=", f_exprs[i] 
-
+print "Final Value=", out
 print "vlen=", vlen, "Time: compile=", time_compile, ",compute=", time_compute, ",total=", (time_compile+time_compute), 
 
 #vlen= 2 Time: compile= 0.0726170539856 ,compute= 58.4039506912 ,total= 58.4765677452

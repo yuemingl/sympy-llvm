@@ -6,7 +6,7 @@ from theano import pp
 
 print __file__
 
-N = 10
+N = 100
 xs = []
 for i in range(N):
 	xs.append(T.dscalar('x%d'%i))

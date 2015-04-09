@@ -17,15 +17,18 @@ g1 = map(lambda a:JIT().Compile([x], a), f_exprs)
 te = time.time()
 print g1
 print "LLVM JIT compile time: ",(te-ts)
-print "LLVM JIT eval value= "
-for g in g1:
-	print g(0.1)
+#print "LLVM JIT eval value= "
+#for g in g1:
+#	print g(0.1)
 
 N=10000000
-for g in g1:
+xx = 0.1
+out = 0.0
+for i in range(len(g1)):
 	ts = time.time()
 	for j in range(N):
-		g1[i](0.1)
+		xx += 1e-15
+		out += g1[i](xx)
 	te = time.time()
-	print "LLVM JIT time: ", (te-ts), " expr=", f_exprs[i] 
-
+	print "f_exprs[",i,"]: ", (te-ts)
+print "Final Value=", out
