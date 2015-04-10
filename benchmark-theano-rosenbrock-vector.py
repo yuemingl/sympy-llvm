@@ -1,3 +1,4 @@
+#NOT work
 import time
 import theano.tensor as T
 from theano import function
@@ -6,27 +7,27 @@ from theano import pp
 
 print __file__
 
-debug = False
+debug = True
 print "N|gradCompileTime|gradEvalTime|hessCompileTime|hessEvalTime|FinalValue"
 
 N = 5
 while N<850:
 	xs = []
 	for i in range(N):
-		xs.append(T.dscalar('x%d'%i))
+		xs.append(T.dvector('x%d'%i))
 	if debug:
 		print xs
 
 	rosen = 0
 	for i in range(1,N):
 		rosen += 100*(xs[i]-xs[i-1]**2)**2 + (1-xs[i-1])**2
-	if debug:	
+	if debug:
 		pp(rosen) #???
 
 	#Gradient
 	grad = []
 	for x in xs:
-		grad.append(T.grad(rosen, x))
+		grad.append(T.grad(rosen, x)) #cost must be a scalar
 	if debug:
 		for e in grad:
 			pp(e) #???

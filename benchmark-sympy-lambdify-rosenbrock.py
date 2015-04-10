@@ -11,6 +11,9 @@ print __file__
 
 debug = false
 
+print "Rosenbrock lambdify(matrix)"
+print "N|Grad Compile Time|Grad Eval Time|Hess Compile Time|Hess Eval Time|Grad CheckSum|Hess CheckSum"
+
 N = 5
 while N < 850:
 
@@ -32,14 +35,18 @@ while N < 850:
 		for e in grad:
 			print e
 
+	#Gradient
 	v_grad = Matrix(grad)
+	ts = time.time()
 	f_grad = lambdify(xs, v_grad);
+	te = time.time()
+	gradCompileTime = te-ts
 
-	vlen = len(xs)
 	args = []
 	for i in range(len(xs)):
 		args.append(1.0)
-	#print f_grad(*args)
+	if debug:
+		print f_grad(*args)
 
 	#Hessian Matrix
 	hess = []
@@ -52,33 +59,40 @@ while N < 850:
 	#hess_list = reduce(lambda x,y: x+y, hess)
 	#print func_hess(*args)
 	m_hess = Matrix(hess)
+	ts = time.time()
 	f_hess = lambdify(xs, m_hess)
-	#print f_hess(*args)
+	te = time.time()
+	hessCompileTime = te-ts
+	if debug:
+		print f_hess(*args)
 
-	out = 0.0
-	NN=100000
+	#Benchmark
+	NN = 100 #*********************************
+	checkSumGrad = 0.0
+	xx = 1.0
 	ts = time.time()
 	for i in range(NN):
 		for j in range(N):
-			args[j] += 1e-15
+			x += 1e-15
+			args[j] = xx
 		outs = f_grad(*args)
-		#print outs
 		for row in range(N):
-			out += outs[row,0]
+			checkSumGrad += outs[row,0]
 	te = time.time()
-	print "N=",N," sympy grad time: ", (te-ts)
+	gradEvalTime = te-ts
 
+	checkSumHess = 0.0
+	xx = 1.0
 	ts = time.time()
 	for i in range(NN):
 		for j in range(N):
-			args[j] += 1e-15
+			x += 1e-15
+			args[j] = xx
 		outs = f_hess(*args)
-		#print outs
 		for row in range(N):
-			out += outs[row,row]
+			checkSumHess += outs[row,row]
 	te = time.time()
-	print "N=",N," sympy hess time: ", (te-ts)
+	hessEvalTime = te-ts
 
-	print "Final Value=", out
-
+	print N,gradCompileTime,gradEvalTime,hessCompileTime,hessEvalTime,checkSumGrad,checkSumHess
 	N += 50

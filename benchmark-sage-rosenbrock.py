@@ -1,5 +1,8 @@
-#sage benchmark
-#load("benchmark-sage-rosenbrock.py")
+# Sage Benchmark for Rosenbrock
+# Use vector and matrix
+#
+# load("benchmark-sage-rosenbrock.py")
+#
 import time
 
 #x = var('x')
