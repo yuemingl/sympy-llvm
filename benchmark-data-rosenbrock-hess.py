@@ -68,9 +68,119 @@ CPPO3 = [
 [805 , 4.547  , 0.262885  , 0.319046 ], 
 ]
 
+#N|gradCompileTime|gradEvalTime
+# (Need*1000)
+Theano  = [
+[5  , 0.188106060028, 0.00289797782898],
+[55 , 2.45710206032 , 0.0290129184723 ],
+[105, 6.33716392517 , 0.0582139492035 ],
+[155, 10.578207016  , 0.0935728549957 ],
+[205, 23.042773962  , 0.156660079956  ],
+[255, 21.0692679882 , 0.178970098495  ],
+[305, 30.8087151051 , 0.227679014206  ],
+]
+for i in range(len(Theano)):
+	row = Theano[i]
+	for j in range(1, len(row)):
+		Theano[i][j] *= 1000
+
+
+
+
+# (Need*1000)
+#Rosenbrock lambdify(matrix) 
+#N|Grad Compile Time|Grad Eval Time|Hess Compile Time|Hess Eval Time|Grad CheckSum|Hess CheckSum
+lambdify = [
+[5  , 0.137263059616, 0.0919940471649, 0.0186078548431, 0.0565900802612],
+[55 , 0.431102991104, 0.653797149658 , 0.308935880661 , 0.598087072372 ],
+[105, 0.654165029526, 1.43851399422  , 0.888613939285 , 1.47306489944  ],
+[155, 0.70402097702 , 1.46867513657  , 1.42413187027  , 1.5329580307   ],
+[205, 1.11419296265 , 1.81097006798  , 1.94313788414  , 2.33068799973  ],
+[255, 1.21863412857 , 2.27776694298  , 2.94755220413  , 2.94281101227  ],
+[305, 1.93022179604 , 2.65718913078  , 4.10849809647  , 3.57789802551  ],
+[355, 1.92739295959 , 3.14450788498  , 5.25075101852  , 4.64605116844  ],
+[405, 2.22623491287 , 3.9528529644   , 7.44158792496  , 5.63200187683  ],
+[455, 2.2211689949  , 4.06015491486  , 9.36174416542  , 6.29428792     ],
+[505, 2.62345194817 , 4.82637095451  , 11.0677549839  , 6.96997189522  ],
+[555, 2.72747206688 , 5.18159294128  , 13.459913969   , 7.91085386276  ],
+[605, 3.22294092178 , 5.922727108    , 16.4141049385  , 9.07861804962  ],
+[655, 1.76675581932 , 3.30534505844  , 10.2653419971  , 5.57263708115  ],
+[705, 1.92488098145 , 3.46923089027  , 11.6668310165  , 6.09018516541  ],
+[755, 2.10820388794 , 3.73816204071  , 14.0178399086  , 7.36339616776  ],
+[805, 2.15881586075 , 4.1932489872   , 15.5676839352  , 8.03694796562  ],
+]
+for i in range(len(lambdify)):
+	row = lambdify[i]
+	for j in range(1, len(row)):
+		lambdify[i][j] *= 1000
+
+
+
+#Sage fast_float onebyone v2 (Need*100)
+#N|GradCompileTime|GradEvalTime|HessCompileTime|HessEvalTime|GradCheckSum|HessCheckSum
+Sage = [
+[5  , 0.00352311134338, 0.00253200531006, 0.00219893455505, 0.00694704055786],
+[55 , 0.0483481884003 , 0.0485470294952 , 0.0536921024323 , 0.156613111496  ],
+[105, 0.121881008148  , 0.126046180725  , 0.145601034164  , 0.386604070663  ],
+[155, 0.202225923538  , 0.228092908859  , 0.314965963364  , 0.70232796669   ],
+[205, 0.296454191208  , 0.354403972626  , 0.521248102188  , 1.09165096283   ],
+[255, 0.455717086792  , 0.503686904907  , 0.807593107224  , 1.57262301445   ],
+[305, 0.642210006714  , 0.708143949509  , 1.23380613327   , 2.29331707954   ],
+[355, 0.803671836853  , 0.95654797554   , 1.79694008827   , 3.15543913841   ],
+[405, 1.05131006241   , 1.21217298508   , 2.50188612938   , 4.03029990196   ],
+[455, 1.41676998138   , 1.49681687355   , 3.50291419029   , 4.89612984657   ],
+[505, 1.94949889183   , 1.94216489792   , 4.85154294968   , 6.25013399124   ],
+[555, 2.45484018326   , 2.24157881737   , 6.21187806129   , 7.03913593292   ],
+[605, 3.17547798157   , 2.6303358078    , 8.15538597107   , 8.16795897484   ],
+[655, 3.74288511276   , 3.0974419117    , 10.1578772068   , 9.631513834     ],
+[705, 4.64187788963   , 3.58673381805   , 12.4521238804   , 11.0141968727   ],
+[755, 5.68853902817   , 4.05583286285   , 15.2991228104   , 12.5613880157   ],
+[805, 6.58001494408   , 4.59799408913   , 18.3412630558   , 14.2840409279   ],
+]
+for i in range(len(Sage)):
+	row = Sage[i]
+	for j in range(1, len(row)):
+		Sage[i][j] *= 100
+
+
+##############log scale###################
+for i in range(len(SymJava)):
+	row = SymJava[i]
+	for j in range(1, len(row)):
+		SymJava[i][j] = log(SymJava[i][j])
+
+for i in range(len(CPP)):
+	row = CPP[i]
+	for j in range(1, len(row)):
+		CPP[i][j] = log(CPP[i][j])
+
+for i in range(len(CPPO3)):
+	row = CPPO3[i]
+	for j in range(1, len(row)):
+		CPPO3[i][j] = log(CPPO3[i][j])
+
+for i in range(len(Theano)):
+	row = Theano[i]
+	for j in range(1, len(row)):
+		Theano[i][j] = log(Theano[i][j])
+
+for i in range(len(lambdify)):
+	row = lambdify[i]
+	for j in range(1, len(row)):
+		lambdify[i][j] = log(lambdify[i][j])
+
+for i in range(len(Sage)):
+	row = Sage[i]
+	for j in range(1, len(row)):
+		Sage[i][j] = log(Sage[i][j])
+############################################
+
 aSymJava = np.array(SymJava)
 aCPP = np.array(CPP)
 aCPPO3 = np.array(CPPO3)
+aTheano = np.array(Theano)
+alambdify = np.array(lambdify)
+aSage = np.array(Sage)
 
 x = aSymJava[...,0]
 
@@ -79,8 +189,11 @@ ax = fig.add_subplot(1, 1, 1)
 line, = plt.plot(x, aSymJava[...,4], 's-', linewidth=1)
 line, = plt.plot(x, aCPP[...,3], 'd-', linewidth=1)
 line, = plt.plot(x, aCPPO3[...,3], 'o-', linewidth=1)
-ax.legend(['SymJava', 'C++', 'C++ O3'], loc=2)
-ax.set_title('Benchmark: 100K Times Evaluaton for Hessian of Rosenbrock Function')
+line, = plt.plot(x, alambdify[...,4], 'p-', linewidth=1)
+line, = plt.plot(x, aSage[...,4], 'h-', linewidth=1)
+
+ax.legend(['SymJava', 'C++', 'C++ O3', 'Theano', 'lambdify', 'Sage'], loc=4)
+ax.set_title('Benchmark: Evaluaton for Hessian of Rosenbrock Function')
 ax.set_xlabel('Dimension of Free Variables')
-ax.set_ylabel('Evaluation Time (s)')
+ax.set_ylabel('Log Scale of Evaluation Time (s)')
 plt.show()
