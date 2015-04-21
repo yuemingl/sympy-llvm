@@ -135,6 +135,34 @@ CPPO3=[
 0.0478,
 #0.052825,
 ]
+
+matlab = [
+1.295480,
+1.941784,
+1.975390,
+2.020248,
+2.068941,
+2.113129,
+2.181538,
+2.244286,
+2.278013,
+]
+matlab = map(lambda x: 0.7*100*x, matlab)
+
+mathematica = [
+0.156
+0.172
+0.343
+0.484
+0.655
+0.749
+0.936
+1.108
+1.248
+#1.373
+]
+mathematica = map(lambda x: 0.7*100*x, mathematica)
+
 # fig = plt.figure()
 # ax = fig.add_subplot(1, 1, 1)
 # x = np.arange(len(llvm))
