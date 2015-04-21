@@ -151,15 +151,15 @@ matlab = [
 matlab = map(lambda x: 0.7*100*x, matlab)
 
 mathematica = [
-0.172
-0.328
-0.468
-0.608
-0.78
-0.92
-1.045
-1.201
-1.341
+0.172,
+0.328,
+0.468,
+0.608,
+0.78,
+0.92,
+1.045,
+1.201,
+1.341,
 ]
 mathematica = map(lambda x: 0.7*100*x, mathematica)
 
@@ -188,6 +188,8 @@ l7=[]
 l8=[] 
 l9=[] 
 l10=[] 
+l11=[] 
+l12=[] 
 for i in range(len(lambdify)): l1.append(log(lambdify[i]/llvm_vec[i]))
 for i in range(len(lambdify)): l2.append(log(lambdify[i]/llvm[i]))
 for i in range(len(lambdify)): l3.append(log(lambdify[i]/sage[i]))
@@ -198,6 +200,9 @@ for i in range(len(lambdify)): l7.append(log(lambdify[i]/theano[i]))
 for i in range(len(lambdify)): l8.append(log(lambdify[i]/SymJava[i]))
 for i in range(len(lambdify)): l9.append(log(lambdify[i]/SymLLVM[i]))
 for i in range(len(lambdify)): l10.append(log(lambdify[i]/CPPO3[i]))
+for i in range(len(lambdify)): l11.append(log(lambdify[i]/matlab[i]))
+for i in range(len(lambdify)): l12.append(log(lambdify[i]/mathematica[i]))
+
 
 
 fig = plt.figure()
@@ -214,20 +219,23 @@ x = np.arange(len(llvm))+1
 # l8.pop(0)
 # l9.pop(0)
 
-line, = plt.plot(x, l1, 's-', linewidth=1)
-line, = plt.plot(x, l2, 'd-', linewidth=1)
+#line, = plt.plot(x, l1, 's-', linewidth=1)
+#line, = plt.plot(x, l2, 'd-', linewidth=1)
 line, = plt.plot(x, l3, 'o-', linewidth=1)
 line, = plt.plot(x, l4, '>-', linewidth=1)
-line, = plt.plot(x, l5, '-', linewidth=3)
+line, = plt.plot(x, l5, '-', linewidth=1)
 line, = plt.plot(x, l6, '*-', linewidth=1)
 line, = plt.plot(x, l7, 'p-', linewidth=1)
 line, = plt.plot(x, l8, 'h-', linewidth=1)
-line, = plt.plot(x, l9, 'D-', linewidth=1)
+#line, = plt.plot(x, l9, 'D-', linewidth=1)
 line, = plt.plot(x, l10, '<-', linewidth=1)
+line, = plt.plot(x, l11, 's-', linewidth=1)
+line, = plt.plot(x, l12, 'd-', linewidth=1)
+
 #filled_markers = (u'o', u'v', u'^', u'<', u'>', u'8', u's', u'p', u'*', u'h', u'H', u'D', u'd')
-ax.legend(['py_llvm_vec', 'py_llvm_scalar', 'sage', 'py_ufuncify', 'lambdify', 'theano_vec', 'theano_scalar', 'SymJava', 'SymLLVM', 'CPPO3'],loc=1)
-#ax.legend(['py_llvm_vec', 'py_llvm_scalar', 'sage', 'py_ufuncify', 'theano_vec', 'theano_scalar', 'SymJava', 'SymLLVM', 'CPPO3'],loc=4)
-ax.set_title('Benchmark: 10M Times Evaluaton for Ploy with Fractional Powers')
+#ax.legend(['py_llvm_vec', 'py_llvm_scalar', 'sage', 'py_ufuncify', 'lambdify', 'theano_vec', 'theano_scalar', 'SymJava', 'SymLLVM', 'CPPO3','Matlab','Mathematica'],loc=4)
+ax.legend(['Sage', 'SymPy_ufuncify', 'SymPy_lambdify', 'Theano_vec', 'Theano_scalar', 'SymJava', 'CPP_O3','Matlab','Mathematica'],loc=1)
+ax.set_title('Benchmark: Evaluaton for Ploynormial with Fractional Powers')
 ax.set_xlabel('Sum[x^(1/n)] for n =1,...,9')
 #ax.set_xlabel('Sum[x^(1/n)] for n =2,...,9')
 ax.set_ylabel('Speed up')
