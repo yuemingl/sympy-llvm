@@ -3,88 +3,102 @@ import matplotlib.pyplot as plt
 from math import log
 
 #-----------------------------------------Taylor Series------------------------------------------------------
+#benchmark-llvm-sqrt-vectorize
+#Without changing param time
 llvm_vec=[
-0.039134979248 ,
-0.0466578006744,
-0.0468530654907,
-0.0490889549255,
-0.0530180931091,
-0.0567910671234,
-0.0594549179077,
-0.0683329105377,
-0.0687310695648,
+0.0375139713287,  #expr= 1.00000000000000
+0.0428831577301,  #expr= 1.0*x + 1.0
+0.043869972229 ,  #expr= 0.5*x**2 + 1.0*x + 1.0
+0.0469710826874,  #expr= 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+0.0498571395874,  #expr= 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+0.0539810657501,  #expr= 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+0.057247877121 ,  #expr= 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+0.0644071102142,  #expr= 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+0.0666389465332,  #expr= 2.48015873015873e-5*x**8 + 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+0.068629026413 ,  #expr= 2.75573192239859e-6*x**9 + 2.48015873015873e-5*x**8 + 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
 ]
 
+#benchmark-llvm-taylor
+#Without changing param time
 llvm=[
-3.47477483749,
-3.57408905029,
-3.47729301453,
-3.67761206627,
-3.5669631958 ,
-3.46216797829,
-3.57206201553,
-3.57880496979,
-3.53235793114,
+3.69724583626,  #expr= 1.00000000000000
+3.53579807281,  #expr= 1.0*x + 1.0
+3.6428809166 ,  #expr= 0.5*x**2 + 1.0*x + 1.0
+3.56534910202,  #expr= 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+3.612210989  ,  #expr= 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+3.69063901901,  #expr= 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+3.59968900681,  #expr= 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+3.71784496307,  #expr= 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+3.67060804367,  #expr= 2.48015873015873e-5*x**8 + 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+3.6263628006 ,  #expr= 2.75573192239859e-6*x**9 + 2.48015873015873e-5*x**8 + 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
 ]
 
+#sage fast_float
 sage=[
-1.83930516243,
-2.00562596321,
-2.01100683212,
-2.08117794991,
-2.28247404099,
-2.27572798729,
-2.41463088989,
-2.63132190704,
-2.58098220825,
+1.883466959  ,   #expr= 1
+1.93007493019,   #expr= x + 1
+2.15443897247,   #expr= 1/2*x^2 + x + 1
+2.10834407806,   #expr= 1/6*x^3 + 1/2*x^2 + x + 1
+2.29894113541,   #expr= 1/24*x^4 + 1/6*x^3 + 1/2*x^2 + x + 1
+2.3378880024 ,   #expr= 1/120*x^5 + 1/24*x^4 + 1/6*x^3 + 1/2*x^2 + x + 1
+2.52155303955,   #expr= 1/720*x^6 + 1/120*x^5 + 1/24*x^4 + 1/6*x^3 + 1/2*x^2 + x + 1
+2.62911391258,   #expr= 1/5040*x^7 + 1/720*x^6 + 1/120*x^5 + 1/24*x^4 + 1/6*x^3 + 1/2*x^2 + x + 1
+2.62940788269,   #expr= 1/40320*x^8 + 1/5040*x^7 + 1/720*x^6 + 1/120*x^5 + 1/24*x^4 + 1/6*x^3 + 1/2*x^2 + x + 1
+2.94319415092,   #expr= 1/362880*x^9 + 1/40320*x^8 + 1/5040*x^7 + 1/720*x^6 + 1/120*x^5 + 1/24*x^4 + 1/6*x^3 + 1/2*x^2 + x + 1
 ]
 
 ufuncify=[
-7.99719905853,
-7.8732612133 ,
-7.77631092072,
-8.71262288094,
-9.18606209755,
-9.87490200996,
-10.1178441048,
-10.5825340748,
-11.1187059879,
+7.87824702263,  #expr= 1.00000000000000
+7.72406387329,  #expr= 1.0*x + 1.0
+7.63258385658,  #expr= 0.5*x**2 + 1.0*x + 1.0
+8.61796522141,  #expr= 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+9.39026093483,  #expr= 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+9.74567198753,  #expr= 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+10.3302628994,  #expr= 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+10.8064610958,  #expr= 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+11.2962200642,  #expr= 2.48015873015873e-5*x**8 + 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+11.8332219124,  #expr= 2.75573192239859e-6*x**9 + 2.48015873015873e-5*x**8 + 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
 ]
 
 lambdify=[
-1.31747102737,
-1.68059802055,
-2.87474584579,
-4.20905900002,
-5.715695858  ,
-7.15989995003,
-8.31176805496,
-9.67445516586,
-11.135641098 ,
+1.26596498489,  #expr= 1.00000000000000
+1.73784303665,  #expr= 1.0*x + 1.0
+2.65794587135,  #expr= 0.5*x**2 + 1.0*x + 1.0
+4.03604197502,  #expr= 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+5.65659880638,  #expr= 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+6.98048496246,  #expr= 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+8.34857487679,  #expr= 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+9.84851193428,  #expr= 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+11.0206389427,  #expr= 2.48015873015873e-5*x**8 + 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
+12.3896789551,  #expr= 2.75573192239859e-6*x**9 + 2.48015873015873e-5*x**8 + 0.000198412698412698*x**7 + 0.00138888888888889*x**6 + 0.00833333333333333*x**5 + 0.0416666666666667*x**4 + 0.166666666666667*x**3 + 0.5*x**2 + 1.0*x + 1.0
 ]
 
+#vec len = 10000
 theano_vec=[
-0.889164924622,
-0.976317882538,
-0.974488973618,
-0.974408864975,
-0.975341796875,
-0.990405082703,
-0.983306884766,
-0.978288888931,
-0.980741977692,
+0.883370876312,
+0.957633972168,
+0.95906496048 ,
+0.962067842484,
+0.968122959137,
+0.969844102859,
+0.970263004303,
+0.969112157822,
+0.965795993805,
+0.96966791153 ,
 ]
 
+#theano function time:
 theano=[
-73.8917908669,
-71.4365959167,
-71.5178279877,
-78.7809510231,
-72.6675970554,
-73.3062839508,
-74.5479679108,
-73.915309906 ,
-76.4422588348,
+7.94146800041,
+7.76174211502,
+7.87686896324,
+7.88205194473,
+7.81489801407,
+7.8935008049 ,
+7.97258591652,
+7.9341750145 ,
+8.14559698105,
+8.10303092003,
 ]
 
 SymJava=[
@@ -98,16 +112,30 @@ SymJava=[
 # 3.537,
 # 4.287,
 # 4.98 ,
+
 #symjava.symbolic.utils.BytecodeSupport.powi()
-0.007,
-0.014,
-0.166,
-0.091,
-0.151,
-0.1  ,
-0.122,
-0.215,
-0.174,
+# 0.007,
+# 0.014,
+# 0.166,
+# 0.091,
+# 0.151,
+# 0.1  ,
+# 0.122,
+# 0.215,
+# 0.174,
+
+#batch compile
+0.038, #expr=1.0
+0.039, #expr=1.0 + x
+0.044, #expr=1.0 + x + 0.5*pow(x,2)
+0.03 , #expr=1.0 + x + 0.5*pow(x,2) + 0.16666666666666666*pow(x,3)
+0.056, #expr=1.0 + x + 0.5*pow(x,2) + 0.16666666666666666*pow(x,3) + 0.041666666666666664*pow(x,4)
+0.059, #expr=1.0 + x + 0.5*pow(x,2) + 0.16666666666666666*pow(x,3) + 0.041666666666666664*pow(x,4) + 0.008333333333333333*pow(x,5)
+0.089, #expr=1.0 + x + 0.5*pow(x,2) + 0.16666666666666666*pow(x,3) + 0.041666666666666664*pow(x,4) + 0.008333333333333333*pow(x,5) + 0.001388888888888889*pow(x,6)
+0.117, #expr=1.0 + x + 0.5*pow(x,2) + 0.16666666666666666*pow(x,3) + 0.041666666666666664*pow(x,4) + 0.008333333333333333*pow(x,5) + 0.001388888888888889*pow(x,6) + 1.984126984126984E-4*pow(x,7)
+0.138, #expr=1.0 + x + 0.5*pow(x,2) + 0.16666666666666666*pow(x,3) + 0.041666666666666664*pow(x,4) + 0.008333333333333333*pow(x,5) + 0.001388888888888889*pow(x,6) + 1.984126984126984E-4*pow(x,7) + 2.48015873015873E-5*pow(x,8)
+0.154, #expr=1.0 + x + 0.5*pow(x,2) + 0.16666666666666666*pow(x,3) + 0.041666666666666664*pow(x,4) + 0.008333333333333333*pow(x,5) + 0.001388888888888889*pow(x,6) + 1.984126984126984E-4*pow(x,7) + 2.48015873015873E-5*pow(x,8) + 2.7557319223985893E-6*pow(x,9)
+
 ]
 
 SymLLVM=[
@@ -120,7 +148,7 @@ SymLLVM=[
 0.003629,
 0.004573,
 0.004784,
-#0.005324,
+0.005324,
 ]
 
 CPPO3=[
@@ -133,7 +161,7 @@ CPPO3=[
 0.037405,
 0.047195,
 0.0478,
-#0.052825,
+0.052825,
 ]
 
 matlab = [
@@ -146,6 +174,7 @@ matlab = [
 2.181538,
 2.244286,
 2.278013,
+2.35, #???
 ]
 matlab = map(lambda x: 0.7*100*x, matlab)
 
@@ -159,7 +188,7 @@ mathematica = [
 0.936,
 1.108,
 1.248,
-#1.373,
+1.373,
 ]
 mathematica = map(lambda x: 0.7*100*x, mathematica)
 
@@ -178,65 +207,65 @@ mathematica = map(lambda x: 0.7*100*x, mathematica)
 # ax.set_ylabel('Time (s)')
 # plt.show()
 
-l1=[]
-l2=[] 
-l3=[] 
-l4=[] 
-l5=[] 
-l6=[] 
-l7=[] 
-l8=[] 
-l9=[] 
-l10=[] 
-l11=[] 
-l12=[] 
-# for i in range(len(lambdify)): l1.append(log(lambdify[i]/llvm_vec[i]))
-# for i in range(len(lambdify)): l2.append(log(lambdify[i]/llvm[i]))
-# for i in range(len(lambdify)): l3.append(log(lambdify[i]/sage[i]))
-# for i in range(len(lambdify)): l4.append(log(lambdify[i]/ufuncify[i]))
-# for i in range(len(lambdify)): l5.append(log(lambdify[i]/lambdify[i]))
-# for i in range(len(lambdify)): l6.append(log(lambdify[i]/theano_vec[i]))
-# for i in range(len(lambdify)): l7.append(log(lambdify[i]/theano[i]))
-# for i in range(len(lambdify)): l8.append(log(lambdify[i]/SymJava[i]))
-# for i in range(len(lambdify)): l9.append(log(lambdify[i]/SymLLVM[i]))
+_llvm_vec   =[]
+_llvm       =[] 
+_sage       =[] 
+_ufuncify   =[] 
+_lambdify   =[] 
+_theano_vec =[] 
+_theano     =[] 
+_SymJava    =[] 
+_SymLLVM    =[] 
+_CPPO3      =[] 
+_matlab     =[] 
+_mathematica=[] 
+# for i in range(len(lambdify)): l1 .append(log(lambdify[i]/llvm_vec[i]))
+# for i in range(len(lambdify)): l2 .append(log(lambdify[i]/llvm[i]))
+# for i in range(len(lambdify)): l3 .append(log(lambdify[i]/sage[i]))
+# for i in range(len(lambdify)): l4 .append(log(lambdify[i]/ufuncify[i]))
+# for i in range(len(lambdify)): l5 .append(log(lambdify[i]/lambdify[i]))
+# for i in range(len(lambdify)): l6 .append(log(lambdify[i]/theano_vec[i]))
+# for i in range(len(lambdify)): l7 .append(log(lambdify[i]/theano[i]))
+# for i in range(len(lambdify)): l8 .append(log(lambdify[i]/SymJava[i]))
+# for i in range(len(lambdify)): l9 .append(log(lambdify[i]/SymLLVM[i]))
 # for i in range(len(lambdify)): l10.append(log(lambdify[i]/CPPO3[i]))
 # for i in range(len(lambdify)): l11.append(log(lambdify[i]/matlab[i]))
 # for i in range(len(lambdify)): l12.append(log(lambdify[i]/mathematica[i]))
-for i in range(len(lambdify)):  l1.append(log(llvm_vec[i]))
-for i in range(len(lambdify)):  l2.append(log(llvm[i]))
-for i in range(len(lambdify)):  l3.append(log(sage[i]))
-for i in range(len(lambdify)):  l4.append(log(ufuncify[i]))
-for i in range(len(lambdify)):  l5.append(log(lambdify[i]))
-for i in range(len(lambdify)):  l6.append(log(theano_vec[i]))
-for i in range(len(lambdify)):  l7.append(log(theano[i]))
-for i in range(len(lambdify)):  l8.append(log(SymJava[i]))
-for i in range(len(lambdify)):  l9.append(log(SymLLVM[i]))
-for i in range(len(lambdify)): l10.append(log(CPPO3[i]))
-for i in range(len(lambdify)): l11.append(log(matlab[i]))
-for i in range(len(lambdify)): l12.append(log(mathematica[i]))
+for i in range(len(lambdify)): _llvm_vec   .append(log(llvm_vec   [i]))
+for i in range(len(lambdify)): _llvm       .append(log(llvm       [i]))
+for i in range(len(lambdify)): _sage       .append(log(sage       [i]))
+for i in range(len(lambdify)): _ufuncify   .append(log(ufuncify   [i]))
+for i in range(len(lambdify)): _lambdify   .append(log(lambdify   [i]))
+for i in range(len(lambdify)): _theano_vec .append(log(theano_vec [i]))
+for i in range(len(lambdify)): _theano     .append(log(theano     [i]))
+for i in range(len(lambdify)): _SymJava    .append(log(SymJava    [i]))
+for i in range(len(lambdify)): _SymLLVM    .append(log(SymLLVM    [i]))
+for i in range(len(lambdify)): _CPPO3      .append(log(CPPO3      [i]))
+for i in range(len(lambdify)): _matlab     .append(log(matlab     [i]))
+for i in range(len(lambdify)): _mathematica.append(log(mathematica[i]))
 
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 
 x = np.arange(len(llvm))
 
-#line, = plt.plot(x, l1, 's-', linewidth=1)
-#line, = plt.plot(x, l2, 'd-', linewidth=1)
-line, = plt.plot(x, l3, 'o-', linewidth=1)
-line, = plt.plot(x, l4, '>-', linewidth=1)
-line, = plt.plot(x, l5, '-', linewidth=1)
-line, = plt.plot(x, l6, '*-', linewidth=1)
-line, = plt.plot(x, l7, 'p-', linewidth=1)
-line, = plt.plot(x, l8, 'h-', linewidth=1)
-#line, = plt.plot(x, l9, 'D-', linewidth=1)
-line, = plt.plot(x, l10, '<-', linewidth=1)
-line, = plt.plot(x, l11, 's-', linewidth=1)
-line, = plt.plot(x, l12, 'd-', linewidth=1)
+line, = plt.plot(x, _SymJava    ,'s-', linewidth=1)
+#line, = plt.plot(x, _SymLLVM    ,'D-', linewidth=1)
+line, = plt.plot(x, _CPPO3      ,'D-', linewidth=1)
+#line, = plt.plot(x, _llvm_vec   ,'s-', linewidth=1)
+#line, = plt.plot(x, _llvm       ,'d-', linewidth=1)
+line, = plt.plot(x, _sage       ,'d-', linewidth=1)
+line, = plt.plot(x, _ufuncify   ,'h-', linewidth=1)
+line, = plt.plot(x, _lambdify   ,'o-',  linewidth=1)
+line, = plt.plot(x, _theano_vec ,'*-', linewidth=1)
+line, = plt.plot(x, _theano     ,'p-', linewidth=1)
+line, = plt.plot(x, _matlab     ,'>-', linewidth=1)
+line, = plt.plot(x, _mathematica,'<-', linewidth=1)
 
 #filled_markers = (u'o', u'v', u'^', u'<', u'>', u'8', u's', u'p', u'*', u'h', u'H', u'D', u'd')
 #ax.legend(['py_llvm_vec', 'py_llvm_scalar', 'sage', 'py_ufuncify', 'lambdify', 'theano_vec', 'theano_scalar', 'SymJava', 'SymLLVM', 'CPPO3','Matlab','Mathematica'],loc=4)
-ax.legend(['Sage', 'SymPy_ufuncify', 'SymPy_lambdify', 'Theano_vec', 'Theano_scalar', 'SymJava', 'CPP_O3','Matlab','Mathematica'],loc=8)
+ax.legend(['SymJava', 'CPP_O3','Sage', 'SymPy_ufuncify', 'SymPy_lambdify', 'Theano_vec', 'Theano_scalar', 'Matlab','Mathematica'],loc=8)
 ax.set_title('Benchmark: Evaluaton for Tayor Series of e^x expanded at x=0')
-ax.set_xlabel('Sum[(1/n!)x^n] for n =0,...,8')
+ax.set_xlabel('Sum[(1/n!)x^n] for n =0,...,9')
 ax.set_ylabel('Speed up (log)')
 plt.show()

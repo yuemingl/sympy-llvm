@@ -12,8 +12,8 @@ print __file__
 NExpr = 10
 
 f_exprs = []
-for i in range(1,NExpr):
-	expr = reduce(lambda a, b:a+b, [1.0/factorial(j)*x**j for j in range(0,i)])
+for i in range(0,NExpr):
+	expr = reduce(lambda a, b:a+b, [1.0/factorial(j)*x**j for j in range(0,i+1)])
 	f_exprs.append(expr)
 	print expr
 
@@ -40,7 +40,8 @@ for g in g2:
 	print g(0.1)
 
 N=10000000
-for g in g1:
+print "Benchmark:"
+for i in range(len(f_exprs)):
 	ts = time.time()
 	for j in range(N):
 		g1[i](0.1)

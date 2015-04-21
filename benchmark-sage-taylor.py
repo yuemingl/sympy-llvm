@@ -1,11 +1,12 @@
-#sage benchmark
+#Sage benchmark
+#load("benchmark-sage-taylor.py")
 import time
 
 NExpr = 10
 x = var('x')
 
 f_exprs = []
-for i in range(0,NExpr-1):
+for i in range(0,NExpr):
 	expr = exp(x).taylor(x, 0, i)
 	f_exprs.append(expr)
 	print expr
@@ -22,6 +23,7 @@ for g in g1:
 	print g(0.1)
 
 N=10000000
+print "benchmark:"
 for i in range(len(f_exprs)):
 	ts = time.time()
 	for j in range(N):

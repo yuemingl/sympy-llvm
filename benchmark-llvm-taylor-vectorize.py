@@ -30,6 +30,15 @@ N=NN/vlen
 xx=0.1
 out=0.0
 time_compute = 0
+
+for i in range(len(g1)):
+	ts = time.time()
+	for j in range(N):
+		g1[i](byref(pX), byref(outAry))
+	te = time.time()
+	time_compute += (te-ts)
+	print "Without changing param time=", (te-ts), " expr=", f_exprs[i] 
+
 for i in range(len(g1)):
 	ts = time.time()
 	for j in range(N):
@@ -41,7 +50,7 @@ for i in range(len(g1)):
 			out += outAry[k]
 	te = time.time()
 	time_compute += (te-ts)
-	print "Time=", (te-ts), " expr=", f_exprs[i] 
+	print "With changing param time=", (te-ts), " expr=", f_exprs[i] 
 print "Final Value=", out
 print "vlen=", vlen, "Time: compile=", time_compile, ",compute=", time_compute, ",total=", (time_compile+time_compute), 
 

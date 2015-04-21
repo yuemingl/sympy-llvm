@@ -29,8 +29,15 @@ out = 0.0
 for i in range(len(g1)):
 	ts = time.time()
 	for j in range(N):
+		g1[i](xx)
+	te = time.time()
+	print "Without changing param time=", (te-ts), " expr=", f_exprs[i] 
+
+for i in range(len(g1)):
+	ts = time.time()
+	for j in range(N):
 		xx += 1e-15
 		out += g1[i](xx)
 	te = time.time()
-	print "f_exprs[",i,"]: ", (te-ts)
+	print "With changing param time=", (te-ts), " expr=", f_exprs[i] 
 print "Final Value=", out

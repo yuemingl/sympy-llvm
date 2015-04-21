@@ -13,8 +13,8 @@ NExpr = 10
 x = T.dscalar('x')
 
 f_exprs = []
-for i in range(1,NExpr):
-	expr = reduce(lambda a, b:a+b, [1.0/factorial(j)*x**j for j in range(0,i)])
+for i in range(0,NExpr):
+	expr = reduce(lambda a, b:a+b, [1.0/factorial(j)*x**j for j in range(0,i+1)])
 	f_exprs.append(expr)
 	print expr
 
@@ -38,7 +38,7 @@ for g in g2:
 	print g(0.1)	
 
 
-N=10000000
+N=1000000 #(need * 10)
 print "Total loops:",N
 
 for i in range(len(f_exprs)):
@@ -52,6 +52,6 @@ for i in range(len(f_exprs)):
 for i in range(len(f_exprs)):
 	ts = time.time()
 	for j in range(N):
-		g1[i](0.1)
+		g2[i](0.1)
 	te = time.time()
 	print "theano theano_function time: ",(te-ts), " expr=", f_exprs[i] 

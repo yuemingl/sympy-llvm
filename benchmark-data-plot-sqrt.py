@@ -178,42 +178,44 @@ mathematica = map(lambda x: 0.7*100*x, mathematica)
 # ax.set_ylabel('Time (s)')
 # plt.show()
 
-l1=[]
-l2=[] 
-l3=[] 
-l4=[] 
-l5=[] 
-l6=[] 
-l7=[] 
-l8=[] 
-l9=[] 
-l10=[] 
-l11=[] 
-l12=[] 
-# for i in range(len(lambdify)): l1.append(log(lambdify[i]/llvm_vec[i]))
-# for i in range(len(lambdify)): l2.append(log(lambdify[i]/llvm[i]))
-# for i in range(len(lambdify)): l3.append(log(lambdify[i]/sage[i]))
-# for i in range(len(lambdify)): l4.append(log(lambdify[i]/ufuncify[i]))
-# for i in range(len(lambdify)): l5.append(log(lambdify[i]/lambdify[i]))
-# for i in range(len(lambdify)): l6.append(log(lambdify[i]/theano_vec[i]))
-# for i in range(len(lambdify)): l7.append(log(lambdify[i]/theano[i]))
-# for i in range(len(lambdify)): l8.append(log(lambdify[i]/SymJava[i]))
-# for i in range(len(lambdify)): l9.append(log(lambdify[i]/SymLLVM[i]))
+_llvm_vec   =[]
+_llvm       =[] 
+_sage       =[] 
+_ufuncify   =[] 
+_lambdify   =[] 
+_theano_vec =[] 
+_theano     =[] 
+_SymJava    =[] 
+_SymLLVM    =[] 
+_CPPO3      =[] 
+_matlab     =[] 
+_mathematica=[] 
+# for i in range(len(lambdify)): l1 .append(log(lambdify[i]/llvm_vec[i]))
+# for i in range(len(lambdify)): l2 .append(log(lambdify[i]/llvm[i]))
+# for i in range(len(lambdify)): l3 .append(log(lambdify[i]/sage[i]))
+# for i in range(len(lambdify)): l4 .append(log(lambdify[i]/ufuncify[i]))
+# for i in range(len(lambdify)): l5 .append(log(lambdify[i]/lambdify[i]))
+# for i in range(len(lambdify)): l6 .append(log(lambdify[i]/theano_vec[i]))
+# for i in range(len(lambdify)): l7 .append(log(lambdify[i]/theano[i]))
+# for i in range(len(lambdify)): l8 .append(log(lambdify[i]/SymJava[i]))
+# for i in range(len(lambdify)): l9 .append(log(lambdify[i]/SymLLVM[i]))
 # for i in range(len(lambdify)): l10.append(log(lambdify[i]/CPPO3[i]))
 # for i in range(len(lambdify)): l11.append(log(lambdify[i]/matlab[i]))
 # for i in range(len(lambdify)): l12.append(log(lambdify[i]/mathematica[i]))
-for i in range(len(lambdify)):  l1.append(log(llvm_vec[i]))
-for i in range(len(lambdify)):  l2.append(log(llvm[i]))
-for i in range(len(lambdify)):  l3.append(log(sage[i]))
-for i in range(len(lambdify)):  l4.append(log(ufuncify[i]))
-for i in range(len(lambdify)):  l5.append(log(lambdify[i]))
-for i in range(len(lambdify)):  l6.append(log(theano_vec[i]))
-for i in range(len(lambdify)):  l7.append(log(theano[i]))
-for i in range(len(lambdify)):  l8.append(log(SymJava[i]))
-for i in range(len(lambdify)):  l9.append(log(SymLLVM[i]))
-for i in range(len(lambdify)): l10.append(log(CPPO3[i]))
-for i in range(len(lambdify)): l11.append(log(matlab[i]))
-for i in range(len(lambdify)): l12.append(log(mathematica[i]))
+for i in range(len(lambdify)): _llvm_vec   .append(log(llvm_vec   [i]))
+for i in range(len(lambdify)): _llvm       .append(log(llvm       [i]))
+for i in range(len(lambdify)): _sage       .append(log(sage       [i]))
+for i in range(len(lambdify)): _ufuncify   .append(log(ufuncify   [i]))
+for i in range(len(lambdify)): _lambdify   .append(log(lambdify   [i]))
+for i in range(len(lambdify)): _theano_vec .append(log(theano_vec [i]))
+for i in range(len(lambdify)): _theano     .append(log(theano     [i]))
+for i in range(len(lambdify)): _SymJava    .append(log(SymJava    [i]))
+for i in range(len(lambdify)): _SymLLVM    .append(log(SymLLVM    [i]))
+for i in range(len(lambdify)): _CPPO3      .append(log(CPPO3      [i]))
+for i in range(len(lambdify)): _matlab     .append(log(matlab     [i]))
+for i in range(len(lambdify)): _mathematica.append(log(mathematica[i]))
+
+
 
 
 
@@ -231,22 +233,36 @@ x = np.arange(len(llvm))+1
 # l8.pop(0)
 # l9.pop(0)
 
-#line, = plt.plot(x, l1, 's-', linewidth=1)
-#line, = plt.plot(x, l2, 'd-', linewidth=1)
-line, = plt.plot(x, l3, 'o-', linewidth=1)
-line, = plt.plot(x, l4, '>-', linewidth=1)
-line, = plt.plot(x, l5, '-', linewidth=1)
-line, = plt.plot(x, l6, '*-', linewidth=1)
-line, = plt.plot(x, l7, 'p-', linewidth=1)
-line, = plt.plot(x, l8, 'h-', linewidth=1)
-#line, = plt.plot(x, l9, 'D-', linewidth=1)
-line, = plt.plot(x, l10, '<-', linewidth=1)
-line, = plt.plot(x, l11, 's-', linewidth=1)
-line, = plt.plot(x, l12, 'd-', linewidth=1)
+line, = plt.plot(x, _SymJava    ,'s-', linewidth=1)
+#line, = plt.plot(x, _SymLLVM    ,'D-', linewidth=1)
+line, = plt.plot(x, _CPPO3      ,'D-', linewidth=1)
+#line, = plt.plot(x, _llvm_vec   ,'s-', linewidth=1)
+#line, = plt.plot(x, _llvm       ,'d-', linewidth=1)
+line, = plt.plot(x, _sage       ,'d-', linewidth=1)
+line, = plt.plot(x, _ufuncify   ,'h-', linewidth=1)
+line, = plt.plot(x, _lambdify   ,'o-',  linewidth=1)
+line, = plt.plot(x, _theano_vec ,'*-', linewidth=1)
+line, = plt.plot(x, _theano     ,'p-', linewidth=1)
+line, = plt.plot(x, _matlab     ,'>-', linewidth=1)
+line, = plt.plot(x, _mathematica,'<-', linewidth=1)
+
+
+# #line, = plt.plot(x, l1, 's-', linewidth=1)
+# #line, = plt.plot(x, l2, 'd-', linewidth=1)
+# line, = plt.plot(x, l3, 'o-', linewidth=1)
+# line, = plt.plot(x, l4, '>-', linewidth=1)
+# line, = plt.plot(x, l5, '-', linewidth=1)
+# line, = plt.plot(x, l6, '*-', linewidth=1)
+# line, = plt.plot(x, l7, 'p-', linewidth=1)
+# line, = plt.plot(x, l8, 'h-', linewidth=1)
+# #line, = plt.plot(x, l9, 'D-', linewidth=1)
+# line, = plt.plot(x, l10, '<-', linewidth=1)
+# line, = plt.plot(x, l11, 's-', linewidth=1)
+# line, = plt.plot(x, l12, 'd-', linewidth=1)
 
 #filled_markers = (u'o', u'v', u'^', u'<', u'>', u'8', u's', u'p', u'*', u'h', u'H', u'D', u'd')
 #ax.legend(['py_llvm_vec', 'py_llvm_scalar', 'sage', 'py_ufuncify', 'lambdify', 'theano_vec', 'theano_scalar', 'SymJava', 'SymLLVM', 'CPPO3','Matlab','Mathematica'],loc=4)
-ax.legend(['Sage', 'SymPy_ufuncify', 'SymPy_lambdify', 'Theano_vec', 'Theano_scalar', 'SymJava', 'CPP_O3','Matlab','Mathematica'],loc=4)
+ax.legend(['SymJava', 'CPP_O3','Sage', 'SymPy_ufuncify', 'SymPy_lambdify', 'Theano_vec', 'Theano_scalar', 'Matlab','Mathematica'],loc=8)
 ax.set_title('Benchmark: Evaluaton for Ploynormial with Fractional Powers')
 ax.set_xlabel('Sum[x^(1/n)] for n =1,...,9')
 #ax.set_xlabel('Sum[x^(1/n)] for n =2,...,9')
