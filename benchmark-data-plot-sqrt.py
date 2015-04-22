@@ -262,10 +262,11 @@ line, = plt.plot(x, _mathematica,'<-', linewidth=1)
 
 #filled_markers = (u'o', u'v', u'^', u'<', u'>', u'8', u's', u'p', u'*', u'h', u'H', u'D', u'd')
 #ax.legend(['py_llvm_vec', 'py_llvm_scalar', 'sage', 'py_ufuncify', 'lambdify', 'theano_vec', 'theano_scalar', 'SymJava', 'SymLLVM', 'CPPO3','Matlab','Mathematica'],loc=4)
-ax.legend(['SymJava', 'CPP_O3','Sage', 'SymPy_ufuncify', 'SymPy_lambdify', 'Theano_vec', 'Theano_scalar', 'Matlab','Mathematica'],loc=8)
+ax.legend(['SymJava', 'C++_O3','Sage', 'SymPy_ufuncify', 'SymPy_lambdify', 'Theano_vector', 'Theano_scalar', 'Matlab','Mathematica'],loc=8)
 ax.set_title('Benchmark: Evaluaton for Ploynormial with Fractional Powers')
 ax.set_xlabel('Sum[x^(1/n)] for n =1,...,9')
 #ax.set_xlabel('Sum[x^(1/n)] for n =2,...,9')
-ax.set_ylabel('Speed up')
+ax.set_ylabel('Log of Time (s)')
+#ax.set_ylabel('Speed up (log)')
 plt.show()
 
