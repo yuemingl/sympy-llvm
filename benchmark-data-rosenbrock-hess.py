@@ -189,6 +189,7 @@ ax = fig.add_subplot(1, 1, 1)
 line, = plt.plot(x, aSymJava[...,4], 's-', linewidth=1)
 line, = plt.plot(x, aCPP[...,3], 'd-', linewidth=1)
 line, = plt.plot(x, aCPPO3[...,3], 'o-', linewidth=1)
+line, = plt.plot(aTheano[0,0], aTheano[0,2], '*-', linewidth=1)
 line, = plt.plot(x, alambdify[...,4], 'p-', linewidth=1)
 line, = plt.plot(x, aSage[...,4], 'h-', linewidth=1)
 
