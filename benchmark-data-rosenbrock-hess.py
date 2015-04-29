@@ -144,35 +144,35 @@ for i in range(len(Sage)):
 
 
 ##############log scale###################
-for i in range(len(SymJava)):
-	row = SymJava[i]
-	for j in range(1, len(row)):
-		SymJava[i][j] = log(SymJava[i][j])
+# for i in range(len(SymJava)):
+# 	row = SymJava[i]
+# 	for j in range(1, len(row)):
+# 		SymJava[i][j] = log(SymJava[i][j])
 
-for i in range(len(CPP)):
-	row = CPP[i]
-	for j in range(1, len(row)):
-		CPP[i][j] = log(CPP[i][j])
+# for i in range(len(CPP)):
+# 	row = CPP[i]
+# 	for j in range(1, len(row)):
+# 		CPP[i][j] = log(CPP[i][j])
 
-for i in range(len(CPPO3)):
-	row = CPPO3[i]
-	for j in range(1, len(row)):
-		CPPO3[i][j] = log(CPPO3[i][j])
+# for i in range(len(CPPO3)):
+# 	row = CPPO3[i]
+# 	for j in range(1, len(row)):
+# 		CPPO3[i][j] = log(CPPO3[i][j])
 
-for i in range(len(Theano)):
-	row = Theano[i]
-	for j in range(1, len(row)):
-		Theano[i][j] = log(Theano[i][j])
+# for i in range(len(Theano)):
+# 	row = Theano[i]
+# 	for j in range(1, len(row)):
+# 		Theano[i][j] = log(Theano[i][j])
 
-for i in range(len(lambdify)):
-	row = lambdify[i]
-	for j in range(1, len(row)):
-		lambdify[i][j] = log(lambdify[i][j])
+# for i in range(len(lambdify)):
+# 	row = lambdify[i]
+# 	for j in range(1, len(row)):
+# 		lambdify[i][j] = log(lambdify[i][j])
 
-for i in range(len(Sage)):
-	row = Sage[i]
-	for j in range(1, len(row)):
-		Sage[i][j] = log(Sage[i][j])
+# for i in range(len(Sage)):
+# 	row = Sage[i]
+# 	for j in range(1, len(row)):
+# 		Sage[i][j] = log(Sage[i][j])
 ############################################
 
 aSymJava = np.array(SymJava)
@@ -192,9 +192,19 @@ line, = plt.plot(x, aCPPO3[...,3], 'o-', linewidth=1)
 line, = plt.plot(aTheano[0,0], aTheano[0,2], '*-', linewidth=1)
 line, = plt.plot(x, alambdify[...,4], 'p-', linewidth=1)
 line, = plt.plot(x, aSage[...,4], 'h-', linewidth=1)
-
-ax.legend(['SymJava', 'C++', 'C++ O3', 'Theano', 'lambdify', 'Sage'], loc=4)
-ax.set_title('Benchmark: Evaluaton for Hessian of Rosenbrock Function')
+ax.set_yscale('log')
+#ax.legend(['SymJava', 'C++', 'C++ O3', 'Theano', 'lambdify', 'Sage'], loc=4)
+#ax.set_title('Benchmark: Evaluaton for Hessian of Rosenbrock Function')
 ax.set_xlabel('Dimension of Free Variables')
-ax.set_ylabel('Log Scale of Evaluation Time (s)')
+#ax.set_ylabel('Log Scale of Evaluation Time (s)')
+ax.set_ylabel('Evaluation Time (second)')
+
+plt.annotate('SymJava',        xy=(x[-1]-50,      aSymJava[-1,4]+0.5))
+plt.annotate('C++',            xy=(x[-1]-30,      aCPP[-1,3]-0.6))
+plt.annotate('C++_O3',         xy=(x[-1]-50,      aCPPO3[-1,3]-0.18))
+#plt.annotate('Theano',         xy=(aTheano[-1,0], aTheano[-1,2]))
+plt.annotate('SymPy_lambdify', xy=(x[-1]-150,     alambdify[-1,4]-5500))
+plt.annotate('Sage',           xy=(x[-1]-30,      aSage[-1,4]-750))
+
+
 plt.show()
