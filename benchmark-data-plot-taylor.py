@@ -250,9 +250,9 @@ ax = fig.add_subplot(1, 1, 1)
 x = np.arange(len(llvm))
 
 line, = plt.plot(x, SymJava    ,'s-', linewidth=1)
-#line, = plt.plot(x, SymLLVM    ,'D-', linewidth=1)
-line, = plt.plot(x, CPPO3      ,'D-', linewidth=1)
-#line, = plt.plot(x, llvm_vec   ,'s-', linewidth=1)
+line, = plt.plot(x, SymLLVM    ,'D-', linewidth=1)
+line, = plt.plot(x, CPPO3      ,'^--', linewidth=1)
+line, = plt.plot(x, llvm_vec   ,'s-', linewidth=1)
 #line, = plt.plot(x, llvm       ,'d-', linewidth=1)
 line, = plt.plot(x, sage       ,'d-', linewidth=1)
 line, = plt.plot(x, ufuncify   ,'h-', linewidth=1)
@@ -273,8 +273,8 @@ ax.set_ylabel('Evaluation Time (second)')
 #ax.set_ylabel('Speed up (log)')
 
 
-plt.annotate('SymJava',        xy=(x[-1]-2,      SymJava[-1]    +0))
-plt.annotate('C++_O3',         xy=(x[-1]-2,      CPPO3[-1]      +0.01))
+plt.annotate('SMC_Java',       xy=(x[-1]-2,      SymJava[-1]    +0))
+plt.annotate('C++_O3',         xy=(x[-1]-2,      CPPO3[-1]      -0.03))
 plt.annotate('Sage',           xy=(x[-1]-2,      sage[-1]       -0))
 plt.annotate('SymPy_ufuncify', xy=(x[-1]-5,      ufuncify[-1])       )
 plt.annotate('SymPy_lambdify', xy=(x[1],         lambdify[3]    -0))
@@ -282,6 +282,8 @@ plt.annotate('Theano_vector',  xy=(x[-1]-2.5,      theano_vec[-1] -0))
 plt.annotate('Theano_scalar',  xy=(x[-1]-2.5,      theano[-1]     -3))
 plt.annotate('Matlab',         xy=(x[-1]-2,      matlab[-1]     -0))
 plt.annotate('Mathematica',    xy=(x[-1]-3,      mathematica[-1]-0))
+plt.annotate('SMC_C++',        xy=(x[-1]-3,      SymLLVM[-1]-0))
+plt.annotate('SMC_Py',         xy=(x[-1]-2,      llvm_vec[-1]+0.01))
 
 
 
