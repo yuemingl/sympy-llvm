@@ -61,7 +61,7 @@ for i in range(dim[0]):
     qudots_ary.append(qudots[i,0].subs([(q1, x1),(q2, x2),(u1, x3),(u2, x4)]))
 ary_len = len(qudots_ary)
 
-func = JIT().VecCompile([l,m,g,x1,x2,x3,x4], qudots_ary)
+func = JIT().BatchCompile([l,m,g,x1,x2,x3,x4], qudots_ary)
 
 def rhs(y, t, l, m, g):
     q1 = y[0]
@@ -84,6 +84,7 @@ y0 = [.1, .2, 0, 0]
 t = linspace(0, 5)
 # Integrate the equations of motion.
 y = odeint(rhs, y0, t, parameters)
+print y
 
 ## Plotting ##
 
