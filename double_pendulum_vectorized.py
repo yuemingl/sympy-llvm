@@ -6,7 +6,10 @@ from numpy import sin, cos, linspace, zeros
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from ctypes import *
+import time
+import sys
 
+ts = time.time()
 q1, q2 = dynamicsymbols('q1 q2')
 q1d, q2d = dynamicsymbols('q1 q2', 1)
 u1, u2 = dynamicsymbols('u1 u2')
@@ -43,10 +46,10 @@ KM.kanes_equations(FL, BL)
 kdd = KM.kindiffdict()
 mass_matrix = KM.mass_matrix_full
 forcing_vector = KM.forcing_full
-mprint(mass_matrix)
-mprint(forcing_vector)
+#mprint(mass_matrix)
+#mprint(forcing_vector)
 qudots = mass_matrix.inv() * forcing_vector
-mprint(qudots)
+#mprint(qudots)
 qudots = qudots.subs(kdd)
 # mprint(qudots)
 # qudots.simplify()
@@ -75,33 +78,42 @@ def rhs(y, t, l, m, g):
         dydt[i] = outAry[i]
     #return outAry
     return dydt
-
+symbolTime = time.time()-ts
+ 
+ts = time.time()
 # Specify the length, mass and acceleration due to gravity.
 parameters = (1, 1, 9.8)
 # Specify initial conditions for the states.
 y0 = [.1, .2, 0, 0]
 # Create a time vector.
-t = linspace(0, 5)
+NN = 100
+if len(sys.argv) >= 2:
+    NN = int(sys.argv[1])
+
+t = linspace(0, 5, NN)
 # Integrate the equations of motion.
 y = odeint(rhs, y0, t, parameters)
-print y
+#print y
+evalTime = time.time()-ts
+print NN, symbolTime, evalTime
+
 
 ## Plotting ##
 
 # Create an empty figure.
-fig = plt.figure()
+#fig = plt.figure()
 
 # Add a single axes to the figure.
-ax = fig.add_subplot(1, 1, 1)
+#ax = fig.add_subplot(1, 1, 1)
 
 # Plot the states versus time.
-ax.plot(t, y)
+#ax.plot(t, y)
 
 # Add a title, axes labels and a legend.
-ax.set_title('Double Pendulum Example')
-ax.set_xlabel('Time (s)')
-ax.set_ylabel('Angle, Angluar rate (rad, rad/s)')
-ax.legend(['q1', 'q2', 'u1', 'u2'])
+#ax.set_title('Double Pendulum Example')
+#ax.set_xlabel('Time (s)')
+#ax.set_ylabel('Angle, Angluar rate (rad, rad/s)')
+#ax.legend(['q1', 'q2', 'u1', 'u2'])
 
 # Display the figure.
-plt.show()
+#plt.show()
