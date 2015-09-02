@@ -1,0 +1,6 @@
+python double_pendulum_vectorized.py 1000000
+python double_pendulum_vectorized.py 2000000
+python double_pendulum_vectorized.py 4000000
+python double_pendulum_vectorized.py 8000000
+python double_pendulum_vectorized.py 16000000
+python double_pendulum_vectorized.py 32000000

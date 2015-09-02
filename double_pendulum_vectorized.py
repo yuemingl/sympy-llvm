@@ -95,7 +95,7 @@ t = linspace(0, 5, NN)
 y = odeint(rhs, y0, t, parameters)
 #print y
 evalTime = time.time()-ts
-print NN, symbolTime, evalTime
+print NN, symbolTime, evalTime, symbolTime+evalTime
 
 
 ## Plotting ##
